@@ -8,22 +8,36 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.example.test"
+        applicationId "com.example.practiceHealth"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField 'String', 'API_BASE_URL', '"https://smartemr.mremind.com/api/"'
+            shrinkResources true
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+
+            buildConfigField 'String', 'API_BASE_URL', '"https://smartemr.mremind.com/api/"'
+
+
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
+    def nav_version_ktx = '2.1.0-beta02'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -34,4 +48,20 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version_ktx"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version_ktx"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+
+
 }

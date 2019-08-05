@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph_main.xml"
+            app:startDestination="@id/signInFragment">
+
+    <fragment android:id="@+id/settingFragment" android:name="com.example.practiceHealth.SettingFragment"
+              android:label="fragment_setting" tools:layout="@layout/fragment_setting"/>
+    <fragment android:id="@+id/homeFragment" android:name="com.example.practiceHealth.HomeFragment" android:label="fragment_home"
+              tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_homeFragment_to_settingFragment" app:destination="@id/settingFragment"/>
+        <action android:id="@+id/action_homeFragment_to_newPracticesFragment"
+                app:destination="@id/newPracticesFragment"/>
+        <action android:id="@+id/action_homeFragment_to_stablePracticeFragment"
+                app:destination="@id/stablePracticeFragment"/>
+        <action android:id="@+id/action_homeFragment_to_followUpFragment" app:destination="@id/followUpFragment"/>
+    </fragment>
+    <fragment android:id="@+id/signInFragment" android:name="com.example.practiceHealth.signInModule.SignInFragment"
+              android:label="SignInFragment"
+              tools:layout="@layout/fragment_sign_in"
+    >
+        <action android:id="@+id/action_signInFragment_to_homeFragment" app:destination="@id/homeFragment"
+                app:popUpTo="@+id/signInFragment" app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment android:id="@+id/newPracticesFragment"
+              tools:layout="@layout/fragment_new_practices"
+              android:name="com.example.practiceHealth.homeModule.newPracticeModule.NewPracticesFragment"
+              android:label="NewPracticesFragment">
+        <action android:id="@+id/action_newPracticesFragment_to_practiceDetailsFragment"
+                app:destination="@id/practiceDetailsFragment"/>
+    </fragment>
+    <fragment android:id="@+id/practiceDetailsFragment"
+              android:name="com.example.practiceHealth.homeModule.practicewDetailModule.PracticeDetailsFragment"
+              android:label="fragment_practice_details" tools:layout="@layout/fragment_practice_details"/>
+    <fragment android:id="@+id/stablePracticeFragment"
+              android:name="com.example.practiceHealth.homeModule.stablePracticeModule.StablePracticeFragment"
+              android:label="fragment_stable_practice" tools:layout="@layout/fragment_stable_practice"/>
+    <fragment android:id="@+id/followUpFragment" android:name="com.example.practiceHealth.FollowUpFragment"
+              android:label="fragment_follow_up" tools:layout="@layout/fragment_follow_up"/>
+</navigation>

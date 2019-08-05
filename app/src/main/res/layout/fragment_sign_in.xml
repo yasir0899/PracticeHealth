@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:background="@color/background_color"
+                                                   android:layout_height="match_parent">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fillViewport="true"
+            android:id="@+id/scrollView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:id="@+id/clSignInInner"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.5"
+                    android:src="@drawable/background_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:scaleType="fitXY"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:id="@+id/imageView" />
+
+            <TextView
+                    android:text="@string/practice_status"
+                    android:textColor="@color/text_view_color_designer"
+                    android:textSize="@dimen/text_view_size_28sp"
+                    android:fontFamily="@font/source_sans_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+
+            <!-- <com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar
+                 android:id="@+id/pbSignIn"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:radius="5dp"
+                 android:color="#2f5aa6"
+                 app:dd_numDots="4"
+                 app:dd_scaleMultiplier="1.5"
+                 app:dd_animationDuration="500"
+                 app:dd_horizontalSpacing="4dp"
+                 app:layout_constraintStart_toStartOf="parent"
+                 android:layout_marginLeft="32dp"
+                 android:layout_marginStart="32dp"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:layout_marginEnd="32dp"
+                 android:layout_marginRight="32dp"
+                 app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                 android:layout_marginTop="16dp" />-->
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/edit_text_size_14sp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:drawableRight="@drawable/username_24"
+                    android:background="@drawable/et_bg_border"
+                    android:textColor="@color/edit_text_color"
+                    android:layout_height="50dp"
+                    android:padding="@dimen/padding_10dp"
+                    android:elevation="@dimen/edit_text_elevation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:hint="@string/user_name"
+                    app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_height="50dp"
+                    android:drawableRight="@drawable/close_eye_24"
+                    app:passwordToggleTint="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etEmail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:elevation="@dimen/edit_text_elevation"
+                    android:padding="@dimen/padding_10dp"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/edit_text_size_14sp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:background="@drawable/et_bg_border"
+                    android:drawablePadding="@dimen/padding_10dp"
+                    android:textColor="@color/edit_text_color"
+                    android:hint="@string/password" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    app:layout_constraintWidth_percent="0.65"
+                    android:layout_height="50dp"
+                    android:id="@+id/btnSignIn"
+                    android:text="@string/sign_in"
+                    android:textColor="#fffeff"
+                    app:fontFamily="@font/source_sans_bold"
+                    android:textSize="@dimen/text_view_size_23sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/button_size"
+                    android:layout_marginTop="60dp" app:layout_constraintTop_toBottomOf="@+id/etPassword"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/guideline3"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    app:layout_constraintGuide_percent="0.18"
+                    android:layout_marginTop="0dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/guideline"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    app:layout_constraintGuide_percent="0.379"
+                    android:layout_marginTop="0dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
