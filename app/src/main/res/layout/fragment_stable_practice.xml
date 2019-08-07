@@ -17,7 +17,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
+    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/rcvStablePractice"
+            app:layout_constraintTop_toTopOf="@+id/rcvStablePractice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            app:loader_animDur="400"
+            android:id="@+id/pbStablePractice"
+            app:loader_defaultColor="@color/dot_unselected_color"
+            app:loader_selectedColor="@color/colorAccent"
+            app:loader_showRunningShadow="false"
+            app:loader_circleRadius="@dimen/dot_radius_selected_unselected"
+            app:loader_dotsDist="8dp"
+            app:loader_expandOnSelect="true"
+            app:loader_isSingleDir="true"
+            app:loader_noOfDots="5"
+            app:loader_selectedRadius="@dimen/dot_radius_selected_unselected"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,14 +65,15 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         tvPracticeName.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         practiceStageId = newPracticeItems.practiceStageId
         practiceDetailsItemsList = ArrayList()
-        //pbPracticeDetails.show()
+
         initPracticeDetailsItems(practiceStageId)
     }
 
     private fun initPracticeDetailsItems(practiceId: String?) {
+        pbPracticeDetails.visibility=View.VISIBLE
         practiceDetailsVM.getPracticesDetails(practiceId!!)
             ?.observe(this, Observer<ArrayList<PracticeDetailsResponseModel>> {
-                //   pbPracticeDetails.hide()
+                pbPracticeDetails.visibility=View.INVISIBLE
 
                 if (it != null) {
                     practiceDetailsItemsList = it

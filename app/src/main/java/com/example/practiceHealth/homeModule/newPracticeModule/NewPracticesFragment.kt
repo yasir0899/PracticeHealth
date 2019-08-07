@@ -46,18 +46,18 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
         (activity as MainActivity).hideSignOutOption()
         args = arguments ?: Bundle()
         newPracticeItems = ArrayList()
-        //pbNewPractice.show()
+
         initNewPracticeItems()
 
     }
 
 
     private fun initNewPracticeItems() {
-
+        pbNewPractices.visibility=View.VISIBLE
         newPracticesVM.getNewPractices("1")?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
             newPracticeItems.clear()
 
-            //pbNewPractice.hide()
+            pbNewPractices.visibility=View.INVISIBLE
             if (it != null) {
                 adapterU = NewPracticesAdapter(it, requireContext())
                 rcvNewPractice.adapter = adapterU

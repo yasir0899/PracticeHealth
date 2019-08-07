@@ -34,6 +34,7 @@ class LevelsAdapter(
         val level = levelList[position]
         holder.title.text = level.levelName
         holder.rcv.adapter = LevelsChildApapter(level.subLevelsDetails, context)
+
         holder.clLevels.setOnClickListener {
             if (listener != null) {
                 listener?.onAdapterPostionViewHolderListner(position, holder, false, false, it)//fpr fab item
@@ -50,6 +51,8 @@ class LevelsAdapter(
     fun deleteItem(pos: Int) {
         levelList.removeAt(pos)
         levelList.size
+        notifyDataSetChanged()
+        notifyItemRemoved(pos)
 
     }
 
@@ -67,7 +70,7 @@ class LevelsAdapter(
     }
 
 
-    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView = view.tvLevelName
         var clLevels: ConstraintLayout = view.clLevel
         var rcv: RecyclerView = view.rcvChild
@@ -84,4 +87,6 @@ class LevelsAdapter(
 
         }
     }
+
+
 }

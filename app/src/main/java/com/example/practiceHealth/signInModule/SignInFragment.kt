@@ -10,10 +10,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.practiceHealth.R
 import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.utils.ToastUtil
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 
@@ -41,8 +43,8 @@ class SignInFragment : Fragment() {
         etPassword.setText("admin")
         btnSignIn.setOnClickListener {
 
-            navigateToHome()
-            /*  pbSignIn.show()
+            //navigateToHome()
+              pbSignIn.visibility=View.VISIBLE
               signInVM.loginIn(etEmail.text.toString(), etPassword.text.toString())?.observe(this, Observer<Any> {
                   pbSignIn.visibility=View.INVISIBLE
                   when {
@@ -56,7 +58,7 @@ class SignInFragment : Fragment() {
                       }
 
                   }
-              })*/
+              })
         }
         getDeviceName()
 

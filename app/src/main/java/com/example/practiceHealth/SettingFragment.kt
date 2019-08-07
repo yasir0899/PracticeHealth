@@ -3,6 +3,7 @@ package com.example.practiceHealth
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,33 +13,31 @@ import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
+import com.example.practiceHealth.utils.ToastUtil
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_setting.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import androidx.recyclerview.widget.ItemTouchHelper
-
-import android.graphics.*
-
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-
-
 
 
 class SettingFragment : Fragment(), myListener {
     private val p = Paint()
+    var adapterPosition = 0
+    private var args: Bundle? = null
+
     private val levelsVM: LevelsVM by lazy {
         ViewModelProviders.of(this).get(LevelsVM::class.java)
     }
 
-    lateinit var levelDetailsList: ArrayList<LevelsDetailsItems>
     lateinit var test: ArrayList<LevelsDetailsItems>
     var isVisibility: Boolean = false
     private lateinit var levelItemsList: ArrayList<LevelsDto>
     private lateinit var adapterU: LevelsAdapter
-    private var args: Bundle? = null
+
 
     companion object {
         val TAG: String = this::class.java.simpleName
@@ -54,85 +53,33 @@ class SettingFragment : Fragment(), myListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        args = arguments ?: Bundle()
         levelItemsList = ArrayList()
         test = ArrayList()
         (activity as MainActivity).supportActionBar?.title = ""
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as MainActivity).toolBarsCenterTitle(getString(R.string.settings))
-
         (activity as MainActivity).hideSignOutOption()
-        enableSwipe()
         initSettingsItems()
 
 
     }
 
     private fun initSettingsItems() {
-        /*levelDetailsList = ArrayList()
-        levelDetailsList.add(
-
-            LevelsDetailsItems(
-                "Credentialing", 23
-            )
-        )
-        levelDetailsList.add(LevelsDetailsItems("EMR", 33))
-        levelDetailsList.add(
-            LevelsDetailsItems(
-                "Credentialing", 23
-            )
-        )
-        levelDetailsList.add(
-            LevelsDetailsItems(
-                "Credentialing",
-                35
-            )
-        )
-        levelDetailsList.add(LevelsDetailsItems("Follow Up", 30))
-        levelItemsList.clear()
-        levelItemsList.add(
-            LevelsItems(
-                "Level 1", levelDetailsList
-            )
-        )
-
-
-        test.add(LevelsDetailsItems("Credentialing", 333))
-        levelItemsList.add(
-            LevelsItems(
-                "Level 2", test
-            )
-        )
-
-        levelItemsList.add(
-            LevelsItems(
-                "Level 3", levelDetailsList.toList() as ArrayList<LevelsDetailsItems>
-            )
-        )
-        levelItemsList.add(
-            LevelsItems(
-                "Level 4", levelDetailsList.toList() as ArrayList<LevelsDetailsItems>
-            )
-        )
-
-        levelItemsList.add(
-            LevelsItems(
-                "Level 5", levelDetailsList.toList() as ArrayList<LevelsDetailsItems>
-            )
-        )
-        adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity())
-        rcvLevel.adapter = adapterU
-        adapterU.setOnAdapterClickListener(this)*/
-        dotsProgressBar.start()
+      //  dotsProgressBar.start()
+       pbLevels.visibility=View.VISIBLE
         levelsVM.getLevels()?.observe(this, Observer<ArrayList<LevelsDto>> {
 
             if (it != null) {
-                dotsProgressBar.stop()
+                //dotsProgressBar.stop()
                 dotsProgressBar.visibility = View.INVISIBLE
+                pbLevels.visibility = View.INVISIBLE
                 levelItemsList = it
                 adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity())
                 rcvLevel.adapter = adapterU
                 adapterU.setOnAdapterClickListener(this)
+
             }
 
 
@@ -147,35 +94,10 @@ class SettingFragment : Fragment(), myListener {
         it: View
     ) {
 
-        Log.e("visible", "$position")
-        if (fromFabButtom) {
-            /* var list = adapterU.getItem(position).subLevelsDetails
-             list.add(LevelsDetailsItems("Last Stage", 40))
-             list.add(LevelsDetailsItems("Enrollment", 10))
-             val item = LevelsItems(adapterU.getItem(position).levelName, list)
-             levelItemsList[position].levelName = item.levelName
-             levelItemsList[position].list = item.list
-             adapterU.notifyItemInserted(position)
-             Log.e("child", "$item")
-             Log.e("List", "$levelItemsList")
+        enableSwipe(position, holder)
+        adapterPosition = position
+        Log.e("Level ID", "${adapterU.getItem(position).levelId}")
 
-
-             // showDialog(position)
-
-             if (position == 1) {
-
-                 var list = adapterU.getItem(position).list
-                 list.add(LevelsDetailsItems("Last Stage", 40))
-                 list.add(LevelsDetailsItems("Enrollment", 10))
-                 val item = LevelsItems(adapterU.getItem(position).levelName, list)
-                 test = list
-                 adapterU.notifyItemChanged(position)
-             }
- */
-
-            /* val dialog= AddStageDialog(position)
-             dialog.show(fragmentManager!!,"test")*/
-        }
 
         Log.e("visible", "$position")
         if (!isVisibility) {
@@ -196,13 +118,18 @@ class SettingFragment : Fragment(), myListener {
     }
 
     override fun itemClicked(position: Int) {
-        /* val item = LevelsDetailsItems("abcd", 55)
-         levelItemsList[position].list.add(item)
-         val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
-         vh.rcv.adapter?.notifyItemInserted(levelItemsList[position].list.size - 1)*/
-
         val levelDialog = LevelDialog()
+        args = Bundle()
+        args!!.putInt(LevelDialog.LEVEL_ID, levelItemsList[position].levelId)
+        levelDialog.arguments = args
         levelDialog.setCallBack(object : LevelDialog.ItemAdded {
+            override fun onCancel() {
+
+            }
+
+            override fun onItemUpdated(item: SubLevelsDetailsItem) {
+            }
+
             override fun onItemAdded(item: SubLevelsDetailsItem) {
                 levelItemsList[position].subLevelsDetails.add(item)
                 val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
@@ -224,6 +151,7 @@ class SettingFragment : Fragment(), myListener {
         })
         levelDialog.show(requireFragmentManager(), "LevelDialog")
     }
+
 
     private fun View.animateVisibility(setVisible: Boolean) {
         if (setVisible) expand(this) else collapse(this)
@@ -268,7 +196,9 @@ class SettingFragment : Fragment(), myListener {
         valueAnimator.interpolator = DecelerateInterpolator()
         valueAnimator.start()
     }
-    private fun enableSwipe() {
+
+    private fun enableSwipe(position: Int, holder: LevelsAdapter.ViewHolder) {
+
         val simpleItemTouchCallback =
             object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
@@ -281,38 +211,43 @@ class SettingFragment : Fragment(), myListener {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
-
+                    val adapterPosition = viewHolder.adapterPosition
+                    Log.e("adapterPositionpostion","$adapterPosition : $position")
                     if (direction == ItemTouchHelper.LEFT) {
-                        val deletedModel = levelItemsList.get(position)
-                        adapterU.deleteItem(position)
-                        // showing snack bar with Undo option
-                        val snackbar = Snackbar.make(
-                            activity!!.window.getDecorView().getRootView(),
-                            " removed from Recyclerview!",
-                            Snackbar.LENGTH_LONG
-                        )
-                        snackbar.setAction("UNDO") {
-                            // undo is selected, restore the deleted item
-                         //   adapterU.restoreItem(deletedModel, position)
-                        }
-                        snackbar.setActionTextColor(Color.YELLOW)
-                        snackbar.show()
+                        val deletedModel = levelItemsList[position].subLevelsDetails[adapterPosition]
+                        Log.e("deletedModel","$deletedModel")
+                        // adapterU.deleteItem(position)
+                        levelItemsList[position].subLevelsDetails.removeAt(adapterPosition)
+                        levelItemsList[position].subLevelsDetails.size
+                        holder.rcv.adapter!!.notifyItemRemoved(adapterPosition)
+                        holder.rcv.adapter!!.notifyDataSetChanged()
+                        ToastUtil.showShortToast(requireContext(), "deleted")
                     } else {
-                        val deletedModel =  levelItemsList.get(position)
-                        adapterU.deleteItem(position)
-                        // showing snack bar with Undo option
-                        val snackbar = Snackbar.make(
-                            activity!!. getWindow().getDecorView().getRootView(),
-                            " removed from Recyclerview!",
-                            Snackbar.LENGTH_LONG
-                        )
-                        snackbar.setAction("UNDO") {
-                            // undo is selected, restore the deleted item
-                           // adapter.restoreItem(deletedModel, position)
-                        }
-                        snackbar.setActionTextColor(Color.YELLOW)
-                        snackbar.show()
+                        val subLevelsDetailsItem = levelItemsList[position].subLevelsDetails[adapterPosition]
+                        Log.e("subLevelsDetailsItem","$subLevelsDetailsItem")
+                        ToastUtil.showShortToast(requireContext(), "edit")
+                        args = Bundle()
+                        args?.putString(LevelDialog.SUB_LEVEL_DATA, Gson().toJson(subLevelsDetailsItem))
+                        val levelDialog = LevelDialog()
+                        levelDialog.arguments = args
+                        levelDialog.setCallBack(object : LevelDialog.ItemAdded {
+                            override fun onCancel() {
+                                val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
+                                vh.rcv.adapter?.notifyItemChanged(adapterPosition)
+                            }
+
+                            override fun onItemUpdated(item: SubLevelsDetailsItem) {
+                                levelItemsList[position].subLevelsDetails[adapterPosition] = item
+                                val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
+                                vh.rcv.adapter?.notifyItemChanged(adapterPosition)
+                            }
+
+                            override fun onItemAdded(item: SubLevelsDetailsItem) {
+
+
+                            }
+                        })
+                        levelDialog.show(requireFragmentManager(), "LevelDialog")
                     }
                 }
 
@@ -335,12 +270,12 @@ class SettingFragment : Fragment(), myListener {
                         val width = height / 3
 
                         if (dX > 0) {
-                            p.setColor(Color.parseColor("#388E3C"))
+                            p.color = Color.parseColor("#388E3C")
                             val background =
                                 RectF(itemView.left.toFloat(), itemView.top.toFloat(), dX, itemView.bottom.toFloat())
                             c.drawRect(background, p)
 
-                            icon = BitmapFactory.decodeResource(res, R.drawable.arrow_up)
+                            icon = BitmapFactory.decodeResource(res, R.drawable.edit)
                             val icon_dest = RectF(
                                 itemView.left.toFloat() + width,
                                 itemView.top.toFloat() + width,
@@ -349,7 +284,7 @@ class SettingFragment : Fragment(), myListener {
                             )
                             c.drawBitmap(icon, null, icon_dest, p)
                         } else {
-                            p.setColor(Color.parseColor("#D32F2F"))
+                            p.color = Color.parseColor("#D32F2F")
                             val background = RectF(
                                 itemView.right.toFloat() + dX,
                                 itemView.top.toFloat(),
@@ -358,7 +293,7 @@ class SettingFragment : Fragment(), myListener {
                             )
                             c.drawRect(background, p)
 
-                            icon = BitmapFactory.decodeResource(res, R.drawable.arrow_down)
+                            icon = BitmapFactory.decodeResource(res, R.drawable.delete)
                             val icon_dest = RectF(
                                 itemView.right.toFloat() - 2 * width,
                                 itemView.top.toFloat() + width,
@@ -372,6 +307,7 @@ class SettingFragment : Fragment(), myListener {
                 }
             }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(rcvLevel)
+        val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
+        itemTouchHelper.attachToRecyclerView(holder.rcv)
     }
 }

@@ -6,6 +6,7 @@
     <color name="black">#000000</color>
     <color name="blue">#004494</color>
     <color name="dark_gray">#58585A</color>
+    <color name="dot_unselected_color">#d3d3d3</color>
     <color name="white">#FFFFFF</color>
     <color name="background_color">#faf8f9</color>
     <color name="edit_text_color">#010f1e</color>

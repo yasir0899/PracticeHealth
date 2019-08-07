@@ -44,10 +44,10 @@ class StablePracticeFragment : Fragment(), RecyclerViewItemClickListener {
     }
 
     private fun initStablePracticeItems() {
-        //pbStablePractice.show()
+        pbStablePractice.visibility=View.VISIBLE
         newPracticesVM.getNewPractices("2")?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
 
-          //  pbStablePractice.hide()
+            pbStablePractice.visibility=View.INVISIBLE
             if (it != null) {
                 adapterU = NewPracticesAdapter(it, requireContext(), false)
                 rcvStablePractice.adapter = adapterU
