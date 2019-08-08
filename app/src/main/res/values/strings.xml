@@ -41,5 +41,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="please_enter_sub_level_name">Please enter sublevel name</string>
+    <string name="please_enter_weightage">Please enter sublevel weight</string>
+    <string name="please_enter_username">Please enter username</string>
+    <string name="please_enter_pin">Please enter pin</string>
 
 </resources>

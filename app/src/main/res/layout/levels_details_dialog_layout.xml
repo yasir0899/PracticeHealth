@@ -118,26 +118,28 @@
             android:textColor="@color/black"
             android:fontFamily="@font/source_sans_semibold"
             android:textSize="@dimen/text_view_size_21sp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:padding="@dimen/padding_10dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnSave"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toEndOf="@+id/tvCancel"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="@+id/viewButtonHorizontal" />
+            app:layout_constraintTop_toTopOf="@+id/viewButtonHorizontal"/>
 
     <TextView
             android:text="@string/cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:fontFamily="@font/source_sans_semibold"
             android:textSize="@dimen/text_view_size_21sp"
             android:padding="@dimen/padding_10dp"
             android:id="@+id/tvCancel"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toStartOf="@+id/btnSave"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
@@ -145,7 +147,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toBottomOf="@+id/viewButtonHorizontal"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     <View
             android:id="@+id/viewButtonHorizontal"

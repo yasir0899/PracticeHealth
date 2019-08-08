@@ -2,9 +2,11 @@ package com.example.practiceHealth
 
 
 import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.graphics.*
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
@@ -25,6 +28,9 @@ import kotlin.collections.ArrayList
 
 
 class SettingFragment : Fragment(), myListener {
+    private lateinit var mRandom:Random
+    private lateinit var mHandler: Handler
+    private lateinit var mRunnable:Runnable
     private val p = Paint()
     var adapterPosition = 0
     private var args: Bundle? = null
@@ -62,17 +68,28 @@ class SettingFragment : Fragment(), myListener {
         (activity as MainActivity).toolBarsCenterTitle(getString(R.string.settings))
         (activity as MainActivity).hideSignOutOption()
         initSettingsItems()
+        mRandom = Random()
+
+        // Initialize the handler instance
+        mHandler = Handler()
 
 
+        // Set an on refresh listener for swipe refresh layout
+        swipeRefreshLayout.setOnRefreshListener {
+            // Initialize a new Runnable
+           initSettingsItems()
+        }
     }
 
     private fun initSettingsItems() {
       //  dotsProgressBar.start()
        pbLevels.visibility=View.VISIBLE
+        swipeRefreshLayout.isRefreshing=true
         levelsVM.getLevels()?.observe(this, Observer<ArrayList<LevelsDto>> {
 
             if (it != null) {
                 //dotsProgressBar.stop()
+                swipeRefreshLayout.isRefreshing=false
                 dotsProgressBar.visibility = View.INVISIBLE
                 pbLevels.visibility = View.INVISIBLE
                 levelItemsList = it
@@ -106,14 +123,21 @@ class SettingFragment : Fragment(), myListener {
 
             holder.fabAddItem.visibility = View.VISIBLE
             Log.e("visible", "$isVisibility")
-
+        /*    Glide.with(requireContext())
+                .load(R.drawable.arrow_up)
+                .into(holder.expand)*/
+            holder.expand.animate().rotation(holder.expand.rotation-180).setDuration(400).start()
 
         } else {
             isVisibility = false
             holder.rcv.visibility = View.GONE
             holder.fabAddItem.visibility = View.GONE
-
             Log.e("visible", "$isVisibility")
+           /* Glide.with(requireContext())
+                .load(R.drawable.arrow_down)
+                .into(holder.expand)*/
+            holder.expand.animate().rotation(holder.expand.rotation-180).setDuration(400).start()
+
         }
     }
 

@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import com.example.practiceHealth.R
 import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.R
+import com.example.practiceHealth.utils.AppUtils
 import com.example.practiceHealth.utils.ToastUtil
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
@@ -44,21 +45,23 @@ class SignInFragment : Fragment() {
         btnSignIn.setOnClickListener {
 
             //navigateToHome()
-              pbSignIn.visibility=View.VISIBLE
-              signInVM.loginIn(etEmail.text.toString(), etPassword.text.toString())?.observe(this, Observer<Any> {
-                  pbSignIn.visibility=View.INVISIBLE
-                  when {
-                      (it.toString() == "true") -> {
-                          navigateToHome()
+            if (isSubmitAble()) {
+                pbSignIn.visibility = View.VISIBLE
+                signInVM.loginIn(etEmail.text.toString(), etPassword.text.toString())?.observe(this, Observer<Any> {
+                    pbSignIn.visibility = View.INVISIBLE
+                    when {
+                        (it.toString() == "true") -> {
+                            navigateToHome()
 
-                      }
-                      (it.toString() == "false") -> {
-                          ToastUtil.showShortToast(requireContext(), getString(R.string.incorrect_username_pin))
+                        }
+                        (it.toString() == "false") -> {
+                            ToastUtil.showShortToast(requireContext(), getString(R.string.incorrect_username_pin))
 
-                      }
+                        }
 
-                  }
-              })
+                    }
+                })
+            }
         }
         getDeviceName()
 
@@ -135,7 +138,42 @@ class SignInFragment : Fragment() {
         navController.navigate(R.id.action_signInFragment_to_homeFragment)
     }
 
+    private fun isSubmitAble(): Boolean {
+        var returnValue = true
+        if (!validateUsername()) returnValue = false
+        if (!validatePin()) returnValue = false
+        return returnValue
+    }
 
+    private fun validateUsername(): Boolean {
+        return when {
+            (etEmail.text.toString().trim { it <= ' ' }.isEmpty()) -> {
+                ToastUtil.showShortToast(requireContext(), getString(R.string.please_enter_username))
+                AppUtils.requestFocus(requireActivity(), etEmail)
+                false
+            }
+
+            else -> {
+
+                true
+            }
+        }
+    }
+
+    private fun validatePin(): Boolean {
+        return when {
+            (etPassword.text.toString().trim { it <= ' ' }.isEmpty()) -> {
+                ToastUtil.showShortToast(requireContext(), getString(R.string.please_enter_pin))
+                AppUtils.requestFocus(requireActivity(), etPassword)
+                false
+            }
+
+            else -> {
+
+                true
+            }
+        }
+    }
 }
 
 

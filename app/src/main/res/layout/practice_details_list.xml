@@ -6,7 +6,7 @@
     android:layout_marginStart="32dp"
     android:layout_marginEnd="32dp"
     android:layout_marginTop="10dp"
-    android:background="@drawable/tick_shape"
+    android:background="@drawable/practice_detail_item_background_shape"
     android:id="@+id/clPracticeDetailsList"
     android:layout_marginLeft="32dp">
 

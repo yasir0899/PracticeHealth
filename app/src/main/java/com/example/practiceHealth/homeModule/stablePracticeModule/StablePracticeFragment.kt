@@ -14,6 +14,7 @@ import com.example.practiceHealth.adapters.NewPracticesAdapter
 import com.example.practiceHealth.homeModule.newPracticeModule.NewPracticesVM
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel
+import com.example.practiceHealth.utils.ToastUtil
 import kotlinx.android.synthetic.main.fragment_stable_practice.*
 
 class StablePracticeFragment : Fragment(), RecyclerViewItemClickListener {
@@ -48,12 +49,14 @@ class StablePracticeFragment : Fragment(), RecyclerViewItemClickListener {
         newPracticesVM.getNewPractices("2")?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
 
             pbStablePractice.visibility=View.INVISIBLE
-            if (it != null) {
+            if (it != null && it.size!=0) {
                 adapterU = NewPracticesAdapter(it, requireContext(), false)
                 rcvStablePractice.adapter = adapterU
                 adapterU.setOnAdapterClickListener(this)
             }
-
+else{
+                ToastUtil.showShortToast(requireContext(),"No record found")
+            }
 
         })
     }

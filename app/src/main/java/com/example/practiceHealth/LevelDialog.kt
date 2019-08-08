@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.example.practiceHealth.utils.AppUtils
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.levels_details_dialog_layout.view.*
 
@@ -30,17 +31,19 @@ class LevelDialog : DialogFragment() {
         }
         view.etText.requestFocus()
         view.btnSave.setOnClickListener {
-            val text = view.etText.text.toString()
-            val weight = view.etWeight.text.toString()
-            var items = SubLevelsDetailsItem()
-            if (subLevelsDetailsItem != null) items.levelId = subLevelsDetailsItem.levelId
-            else items.levelId = levelId
-            items.sublevelName = text
-            items.weightage = Integer.parseInt(weight.trim())
+            if (isSubmitAble()) {
+                val text = view.etText.text.toString()
+                val weight = view.etWeight.text.toString()
+                var items = SubLevelsDetailsItem()
+                if (subLevelsDetailsItem != null) items.levelId = subLevelsDetailsItem.levelId
+                else items.levelId = levelId
+                items.sublevelName = text
+                items.weightage = Integer.parseInt(weight.trim())
 
-            dismiss()
-            if (subLevelsDetailsItem != null) delegate?.onItemUpdated(items)
-            else delegate?.onItemAdded(items)
+                dismiss()
+                if (subLevelsDetailsItem != null) delegate?.onItemUpdated(items)
+                else delegate?.onItemAdded(items)
+            }
         }
 
         view.tvCancel.setOnClickListener {
@@ -64,5 +67,42 @@ class LevelDialog : DialogFragment() {
         fun onItemAdded(item: SubLevelsDetailsItem)
         fun onItemUpdated(item: SubLevelsDetailsItem)
         fun onCancel()
+    }
+
+    private fun isSubmitAble(): Boolean {
+        var returnValue = true
+        if (!validateText()) returnValue = false
+        if (!validateWeight()) returnValue = false
+        return returnValue
+    }
+
+    private fun validateText(): Boolean {
+        return when {
+            (view!!.etText.text.toString().trim { it <= ' ' }.isEmpty()) -> {
+                view!!.inputLayoutText.error = getString(R.string.please_enter_sub_level_name)
+                AppUtils.requestFocus(requireActivity(), view!!.etText)
+                false
+            }
+
+            else -> {
+                view!!.inputLayoutText.isErrorEnabled = false
+                true
+            }
+        }
+    }
+
+    private fun validateWeight(): Boolean {
+        return when {
+            (view!!.etWeight.text.toString().trim { it <= ' ' }.isEmpty()) -> {
+                view!!.inputLayoutWeight.error = getString(R.string.please_enter_weightage)
+                AppUtils.requestFocus(requireActivity(), view!!.etWeight)
+                false
+            }
+
+            else -> {
+                view!!.inputLayoutWeight.isErrorEnabled = false
+                true
+            }
+        }
     }
 }

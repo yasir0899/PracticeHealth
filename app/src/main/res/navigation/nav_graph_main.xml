@@ -8,26 +8,33 @@
               android:label="fragment_setting" tools:layout="@layout/fragment_setting"/>
     <fragment android:id="@+id/homeFragment" android:name="com.example.practiceHealth.HomeFragment" android:label="fragment_home"
               tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_homeFragment_to_settingFragment" app:destination="@id/settingFragment"/>
+        <action android:id="@+id/action_homeFragment_to_settingFragment" app:destination="@id/settingFragment"
+                app:enterAnim="@anim/slide_in_left" app:popEnterAnim="@anim/slide_in_left"
+        />
         <action android:id="@+id/action_homeFragment_to_newPracticesFragment"
-                app:destination="@id/newPracticesFragment"/>
+                app:destination="@id/newPracticesFragment" app:enterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_left"/>
         <action android:id="@+id/action_homeFragment_to_stablePracticeFragment"
-                app:destination="@id/stablePracticeFragment"/>
-        <action android:id="@+id/action_homeFragment_to_followUpFragment" app:destination="@id/followUpFragment"/>
+                app:destination="@id/stablePracticeFragment" app:enterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_left"/>
+        <action android:id="@+id/action_homeFragment_to_followUpFragment" app:destination="@id/followUpFragment"
+                app:enterAnim="@anim/slide_in_left" app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
     <fragment android:id="@+id/signInFragment" android:name="com.example.practiceHealth.signInModule.SignInFragment"
               android:label="SignInFragment"
               tools:layout="@layout/fragment_sign_in"
     >
         <action android:id="@+id/action_signInFragment_to_homeFragment" app:destination="@id/homeFragment"
-                app:popUpTo="@+id/signInFragment" app:popUpToInclusive="true"/>
+                app:popUpTo="@+id/signInFragment" app:popUpToInclusive="true" app:enterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
     <fragment android:id="@+id/newPracticesFragment"
               tools:layout="@layout/fragment_new_practices"
               android:name="com.example.practiceHealth.homeModule.newPracticeModule.NewPracticesFragment"
               android:label="NewPracticesFragment">
         <action android:id="@+id/action_newPracticesFragment_to_practiceDetailsFragment"
-                app:destination="@id/practiceDetailsFragment"/>
+                app:destination="@id/practiceDetailsFragment" app:enterAnim="@anim/slide_in_left"
+                app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
     <fragment android:id="@+id/practiceDetailsFragment"
               android:name="com.example.practiceHealth.homeModule.practicewDetailModule.PracticeDetailsFragment"
