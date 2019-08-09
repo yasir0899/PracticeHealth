@@ -13,7 +13,7 @@ import com.example.practiceHealth.MainActivity
 import com.example.practiceHealth.R
 
 import com.example.practiceHealth.adapters.NewPracticesAdapter
-import com.example.practiceHealth.homeModule.practicewDetailModule.PracticeDetailsFragment
+import com.example.practiceHealth.homeModule.practiceDetailModule.PracticeDetailsFragment
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
 import com.example.practiceHealth.models.NewPracticeItems
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel

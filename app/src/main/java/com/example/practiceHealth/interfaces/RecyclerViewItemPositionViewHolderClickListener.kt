@@ -4,7 +4,7 @@ import com.example.practiceHealth.adapters.PracticeDetailsAdapter
 
 interface RecyclerViewItemPositionViewHolderClickListener {
 
-    fun onAdapterPostionViewHolderListner(
+    fun onAdapterPositionViewHolderListener(
         position: Int,
         holder: PracticeDetailsAdapter.ViewHolder,
         b: Boolean,

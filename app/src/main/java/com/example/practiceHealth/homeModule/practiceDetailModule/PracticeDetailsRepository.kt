@@ -1,4 +1,4 @@
-package com.example.practiceHealth.homeModule.practicewDetailModule
+package com.example.practiceHealth.homeModule.practiceDetailModule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,24 +13,15 @@ import org.json.JSONObject
 
 class PracticeDetailsRepository {
 
-    private var errorBody: String? = null
-    private var jsonObj: JSONObject? = null
-
-
-    val showLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val dataReceived: MutableLiveData<String> = MutableLiveData()
-    val errorOccurred: MutableLiveData<ErrorDto> = MutableLiveData()
     val data = MutableLiveData<ArrayList<PracticeDetailsResponseModel>>()
     val practiceDetailsUpdated = MutableLiveData<String>()
 
-
-
     fun callApi(stageId: String): LiveData<ArrayList<PracticeDetailsResponseModel>> {
-        showLoading.value = true
+
         object : RetrofitApiManager<ArrayList<PracticeDetailsResponseModel>>(AppController.ApplicationContext) {
 
             override fun onSuccess(t: ArrayList<PracticeDetailsResponseModel>?) {
-                showLoading.value = false
+
                 data.value = t
 
             }
@@ -40,7 +31,7 @@ class PracticeDetailsRepository {
             }
 
             override fun onFailure(t: ErrorDto?) {
-                showLoading.value = false
+
            data.value = null
             }
 

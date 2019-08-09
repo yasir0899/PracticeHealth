@@ -7,14 +7,14 @@ import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 class LevelsVM:ViewModel() {
     fun getLevels(): LiveData<ArrayList<LevelsDto>>? {
 
-        return LevelsRespository().callApi()
+        return LevelsRepository().callApi()
 
 
     }
 
     fun addSubLevelItem(addSubItemRequestModel: AddSubItemRequestModel): LiveData<String>? {
 
-        return LevelsRespository().addSubItemApi(addSubItemRequestModel)
+        return LevelsRepository().addSubItemApi(addSubItemRequestModel)
 
 
     }

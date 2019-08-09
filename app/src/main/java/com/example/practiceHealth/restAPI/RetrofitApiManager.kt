@@ -45,6 +45,8 @@ abstract class RetrofitApiManager<T>(private val mContext: Context) : Callback<T
 
                     responseFailure(ErrorDto(response.message(), response.code()))
                 }
+
+
                 response.code() == HttpStatusCodes.SC_BAD_REQUEST -> {
                     /*responseFailure(ErrorDto(response.message(),HttpStatusCodes.SC_BAD_REQUEST))*/
                 }

@@ -12,7 +12,7 @@
     <string name="home">Home</string>
     <string name="desc"/>
     <string name="new_practices">New Practices</string>
-    <string name="yasir">Yasir Asad Practice test test test test test</string>
+    <string name="dummy">Yasir Asad Practice test test test test test</string>
     <string name="_50_remaining">50% Remaining</string>
     <string name="credentialing">Credentialing</string>
     <string name="stable_practice">Stable Practices</string>
@@ -45,5 +45,9 @@
     <string name="please_enter_weightage">Please enter sublevel weight</string>
     <string name="please_enter_username">Please enter username</string>
     <string name="please_enter_pin">Please enter pin</string>
+    <string name="no_record_found">No record found</string>
+    <string name="level_1">Level 1</string>
+    <string name="_23">23</string>
+    <string name="add_level">Add level</string>
 
 </resources>

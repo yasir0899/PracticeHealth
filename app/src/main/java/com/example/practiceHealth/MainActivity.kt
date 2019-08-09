@@ -11,13 +11,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity(), naigationToFragment {
+class MainActivity : AppCompatActivity(){
     private var optionMenu: Menu? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        // naigateToListView(null)
         nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
@@ -67,20 +66,6 @@ class MainActivity : AppCompatActivity(), naigationToFragment {
         }
     }
 
-
-    override fun naigateToListView(bundle: Bundle?) {
-        val fr = SettingFragment()
-        if (bundle != null) fr.arguments = bundle
-        replaceFragment(fr, SettingFragment.TAG)
-    }
-
-    private fun replaceFragment(fragment: Fragment, tag: String) {
-
-        var ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, fragment, tag)
-        ft.addToBackStack(null)
-        ft.commit()
-    }
 
     fun toolBarsCenterTitle(title: String) {
         toolbar_title.text = title

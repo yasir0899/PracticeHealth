@@ -12,7 +12,7 @@ class InternetConnectionUtil (val context: Context) {
     fun isConnectedToInternet(): Boolean {
         val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = connectivity.allNetworkInfo
-        info.indices.filter { info[it].state == NetworkInfo.State.CONNECTED }.forEach { return true }
+        repeat(info.indices.filter { info[it].state == NetworkInfo.State.CONNECTED }.size) { return true }
         return false
     }
 }

@@ -69,15 +69,12 @@ class SettingFragment : Fragment(), myListener {
     }
 
     private fun initSettingsItems() {
-        //  dotsProgressBar.start()
         pbLevels.visibility = View.VISIBLE
         swipeRefreshLayout.isRefreshing = true
         levelsVM.getLevels()?.observe(this, Observer<ArrayList<LevelsDto>> {
 
             if (it != null) {
-                //dotsProgressBar.stop()
                 swipeRefreshLayout.isRefreshing = false
-                dotsProgressBar.visibility = View.INVISIBLE
                 pbLevels.visibility = View.INVISIBLE
                 levelItemsList = it
                 adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity())
@@ -90,7 +87,7 @@ class SettingFragment : Fragment(), myListener {
         })
     }
 
-    override fun onAdapterPostionViewHolderListner(
+    override fun onAdapterPositionViewHolderListener(
         position: Int,
         holder: LevelsAdapter.ViewHolder,
         b: Boolean,
@@ -223,7 +220,7 @@ class SettingFragment : Fragment(), myListener {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val adapterPosition = viewHolder.adapterPosition
-                    Log.e("adapterPositionpostion", "$adapterPosition : $position")
+                    Log.e("ap&p", "$adapterPosition : $position")
                     if (direction == ItemTouchHelper.LEFT) {
                         val deletedModel = levelItemsList[position].subLevelsDetails[adapterPosition]
                         Log.e("deletedModel", "$deletedModel")

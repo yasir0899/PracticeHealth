@@ -74,7 +74,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="fitXY"
             app:layout_constraintHorizontal_bias="0.0"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/desc"
             android:id="@+id/imageView2"/>
 
     <TextView

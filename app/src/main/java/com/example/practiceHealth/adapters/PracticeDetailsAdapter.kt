@@ -60,14 +60,14 @@ class PracticeDetailsAdapter(
         holder.image.setOnClickListener {
 
             if (listener != null) {
-                listener?.onAdapterPostionViewHolderListner(position, holder, b = false, fromCheckBox = false)
+                listener?.onAdapterPositionViewHolderListener(position, holder, b = false, fromCheckBox = false)
             }
 
         }
 
         holder.checkBox.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
             if (listener != null) {
-                listener?.onAdapterPostionViewHolderListner(position,holder,b,true)
+                listener?.onAdapterPositionViewHolderListener(position,holder,b,true)
             }
             Log.i("is Checked :", "$b")
 

@@ -30,6 +30,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:scaleType="fitXY"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintHorizontal_bias="0.0"
                     android:id="@+id/imageView" />
 
@@ -91,7 +92,7 @@
                     android:layout_marginRight="32dp"
                     app:layout_constraintHorizontal_bias="0.0"
                     android:hint="@string/user_name"
-                    app:layout_constraintTop_toTopOf="@+id/guideline" />
+                    app:layout_constraintTop_toTopOf="@+id/guideline" android:drawableEnd="@drawable/username_24"/>
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -116,7 +117,7 @@
                     android:background="@drawable/et_bg_border"
                     android:drawablePadding="@dimen/padding_10dp"
                     android:textColor="@color/edit_text_color"
-                    android:hint="@string/password" />
+                    android:hint="@string/password" android:drawableEnd="@drawable/close_eye_24"/>
 
 
             <androidx.appcompat.widget.AppCompatButton

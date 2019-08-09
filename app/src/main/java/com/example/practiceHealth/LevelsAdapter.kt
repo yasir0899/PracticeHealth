@@ -33,11 +33,11 @@ class LevelsAdapter(
         holder.clLevels.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val level = levelList[position]
         holder.title.text = level.levelName
-        holder.rcv.adapter = LevelsChildApapter(level.subLevelsDetails, context)
+        holder.rcv.adapter = LevelsChildAdapter(level.subLevelsDetails, context)
 
         holder.clLevels.setOnClickListener {
             if (listener != null) {
-                listener?.onAdapterPostionViewHolderListner(position, holder, false, false, it)//fpr fab item
+                listener?.onAdapterPositionViewHolderListener(position, holder, false, false, it)//fpr fab item
             }
 
         }

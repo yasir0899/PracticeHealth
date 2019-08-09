@@ -27,48 +27,27 @@
         />
 
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/rcvLevel" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="@+id/rcvLevel" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
 
-            <com.example.practiceHealth.utils.DotsProgressBar
-                    android:id="@+id/dotsProgressBar"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"/>
 
-            <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-
-                    android:textSize="16sp"/>
-        </FrameLayout>
-        <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/rcvLevel"
-                app:layout_constraintTop_toTopOf="@+id/rcvLevel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                app:loader_animDur="400"
-                android:id="@+id/pbLevels"
-                app:loader_defaultColor="@color/dot_unselected_color"
-                app:loader_selectedColor="@color/colorAccent"
-                app:loader_showRunningShadow="false"
-                app:loader_circleRadius="@dimen/dot_radius_selected_unselected"
-                app:loader_dotsDist="8dp"
-                app:loader_expandOnSelect="true"
-                app:loader_isSingleDir="true"
-                app:loader_noOfDots="5"
-                app:loader_selectedRadius="@dimen/dot_radius_selected_unselected"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/swipeRefreshLayout"
+            app:layout_constraintTop_toTopOf="@+id/swipeRefreshLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            app:loader_animDur="400"
+            android:id="@+id/pbLevels"
+            app:loader_defaultColor="@color/dot_unselected_color"
+            app:loader_selectedColor="@color/colorAccent"
+            app:loader_showRunningShadow="false"
+            app:loader_circleRadius="@dimen/dot_radius_selected_unselected"
+            app:loader_dotsDist="8dp"
+            app:loader_expandOnSelect="true"
+            app:loader_isSingleDir="true"
+            app:loader_noOfDots="5"
+            app:loader_selectedRadius="@dimen/dot_radius_selected_unselected"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

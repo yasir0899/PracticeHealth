@@ -26,7 +26,7 @@ class DataHandler  {
 
         }
 
-        fun getLongreferences(key: String, context: Context): Long {
+        fun getLongReferences(key: String, context: Context): Long {
             val settings = context.getSharedPreferences(FILE_NAME_SHARED_PREF, Context.MODE_PRIVATE)
             return settings.getLong(key, 0)
         }

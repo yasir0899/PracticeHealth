@@ -55,7 +55,7 @@ class StablePracticeFragment : Fragment(), RecyclerViewItemClickListener {
                 adapterU.setOnAdapterClickListener(this)
             }
 else{
-                ToastUtil.showShortToast(requireContext(),"No record found")
+                ToastUtil.showShortToast(requireContext(),getString(R.string.no_record_found))
             }
 
         })

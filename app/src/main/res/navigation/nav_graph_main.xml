@@ -37,7 +37,7 @@
                 app:popEnterAnim="@anim/slide_in_left"/>
     </fragment>
     <fragment android:id="@+id/practiceDetailsFragment"
-              android:name="com.example.practiceHealth.homeModule.practicewDetailModule.PracticeDetailsFragment"
+              android:name="com.example.practiceHealth.homeModule.practiceDetailModule.PracticeDetailsFragment"
               android:label="fragment_practice_details" tools:layout="@layout/fragment_practice_details"/>
     <fragment android:id="@+id/stablePracticeFragment"
               android:name="com.example.practiceHealth.homeModule.stablePracticeModule.StablePracticeFragment"

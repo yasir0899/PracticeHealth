@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".homeModule.practicewDetailModule.PracticeDetailsFragment">
+    tools:context=".homeModule.practiceDetailModule.PracticeDetailsFragment">
 
     <TextView
         android:layout_width="0dp"
@@ -13,7 +13,7 @@
         android:id="@+id/tvPracticeName"
         android:textSize="@dimen/text_view_size_18sp"
         android:gravity="center_horizontal"
-        android:text="@string/yasir"
+        android:text="@string/dummy"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -3,7 +3,7 @@ package com.example.practiceHealth
 import android.view.View
 
 interface myListener {
-    fun onAdapterPostionViewHolderListner(
+    fun onAdapterPositionViewHolderListener(
         position: Int,
         holder: LevelsAdapter.ViewHolder,
         b: Boolean,

@@ -1,4 +1,4 @@
-package com.example.practiceHealth.modelsnull
+package com.example.practiceHealth.models.responseModels
 
 import com.google.gson.annotations.SerializedName
 

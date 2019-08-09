@@ -8,7 +8,7 @@ import com.example.practiceHealth.restAPI.RestApiClient
 import com.example.practiceHealth.restAPI.RetrofitApiManager
 import com.example.practiceHealth.utils.AppController
 
-class LevelsRespository {
+class LevelsRepository {
     val data = MutableLiveData<ArrayList<LevelsDto>>()
 
     val data1 = MutableLiveData<String>()

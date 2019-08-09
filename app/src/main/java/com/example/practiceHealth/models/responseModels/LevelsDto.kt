@@ -1,6 +1,6 @@
-package com.example.practiceHealth.models
+package com.example.practiceHealth.models.responseModels
 
-import com.example.practiceHealth.modelsnull.SubLevelsDetailsItem
+
 import com.google.gson.annotations.SerializedName
 
 data class LevelsDto(

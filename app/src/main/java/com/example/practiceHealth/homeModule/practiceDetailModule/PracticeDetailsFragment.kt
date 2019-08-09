@@ -1,4 +1,4 @@
-package com.example.practiceHealth.homeModule.practicewDetailModule
+package com.example.practiceHealth.homeModule.practiceDetailModule
 
 
 import android.app.Activity
@@ -23,6 +23,7 @@ import com.example.practiceHealth.interfaces.RecyclerViewItemPositionViewHolderC
 import com.example.practiceHealth.models.requestModels.PracticeStageLevelRequestModel
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel
 import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
+import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.details_dialog_layout.*
 import kotlinx.android.synthetic.main.fragment_practice_details.*
@@ -70,12 +71,12 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
     }
 
     private fun initPracticeDetailsItems(practiceId: String?) {
-        pbPracticeDetails.visibility=View.VISIBLE
+        pbPracticeDetails.visibility = View.VISIBLE
         practiceDetailsVM.getPracticesDetails(practiceId!!)
             ?.observe(this, Observer<ArrayList<PracticeDetailsResponseModel>> {
-                pbPracticeDetails.visibility=View.INVISIBLE
+                pbPracticeDetails.visibility = View.INVISIBLE
 
-                if (it != null) {
+                if (it != null && it.size !== 0) {
                     practiceDetailsItemsList = it
                     adapterU = PracticeDetailsAdapter(practiceDetailsItemsList, requireContext())
                     rcvPracticeDetails.adapter = adapterU
@@ -92,7 +93,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
          showDialog(position)
 
      }*/
-    override fun onAdapterPostionViewHolderListner(
+    override fun onAdapterPositionViewHolderListener(
         position: Int,
         holder: PracticeDetailsAdapter.ViewHolder,
         b: Boolean,
@@ -170,7 +171,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                     adapterU.getItem(position).levelName,
                     adapterU.getItem(position).stageLevelId
                 )
-            if (note.isNullOrEmpty()) {
+            if (note.isEmpty()) {
 
                 Glide.with(requireContext())
                     .load(R.drawable.add_note)

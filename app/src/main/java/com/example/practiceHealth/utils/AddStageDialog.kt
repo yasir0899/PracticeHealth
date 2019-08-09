@@ -11,9 +11,6 @@ import kotlinx.android.synthetic.main.levels_details_dialog_layout.*
 class AddStageDialog(position: Int) : DialogFragment() {
 
    var position=position
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
