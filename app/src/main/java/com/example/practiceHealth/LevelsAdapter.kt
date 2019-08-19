@@ -34,6 +34,9 @@ class LevelsAdapter(
         val level = levelList[position]
         holder.title.text = level.levelName
         holder.rcv.adapter = LevelsChildAdapter(level.subLevelsDetails, context)
+        /* val resId = R.anim.layout_animation_fall_down
+         val animation = AnimationUtils.loadLayoutAnimation(context, resId)
+         holder.rcv.layoutAnimation = animation*/
 
         holder.clLevels.setOnClickListener {
             if (listener != null) {

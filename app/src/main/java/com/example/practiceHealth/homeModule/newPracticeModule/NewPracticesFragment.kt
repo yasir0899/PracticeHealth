@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.practiceHealth.MainActivity
 import com.example.practiceHealth.R
-
 import com.example.practiceHealth.adapters.NewPracticesAdapter
 import com.example.practiceHealth.homeModule.practiceDetailModule.PracticeDetailsFragment
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
@@ -60,6 +59,9 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
             pbNewPractices.visibility=View.INVISIBLE
             if (it != null) {
                 adapterU = NewPracticesAdapter(it, requireContext())
+                /*val resId = R.anim.layout_animation_fall_down
+                val animation = loadLayoutAnimation(requireContext(), resId)
+                rcvNewPractice.layoutAnimation = animation*/
                 rcvNewPractice.adapter = adapterU
                 adapterU.setOnAdapterClickListener(this)
             }

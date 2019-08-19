@@ -1,7 +1,10 @@
 package com.example.practiceHealth
 
 import android.content.Context
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +25,7 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        holder.clChild.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val level = list[position]
         //holder.title.text = level.levelName
 
