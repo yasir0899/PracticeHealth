@@ -28,7 +28,6 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
         )
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.clChild.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val level = list[position]
