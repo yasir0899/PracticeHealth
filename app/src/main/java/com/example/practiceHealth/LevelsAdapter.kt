@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.levels_list.view.*
 
 class LevelsAdapter(
-    val levelList: ArrayList<LevelsDto>,
+    private val levelList: ArrayList<LevelsDto>,
     private val context: Context,
     private val requireActivity: FragmentActivity
 ) : RecyclerView.Adapter<LevelsAdapter.ViewHolder>() {
@@ -38,6 +39,23 @@ class LevelsAdapter(
          val animation = AnimationUtils.loadLayoutAnimation(context, resId)
          holder.rcv.layoutAnimation = animation*/
 
+        when(level.levelName){
+            "Level 1"->{  Glide.with(context)
+                .load(R.drawable.level_1)
+                .into(holder.ivLevel)}
+            "Level 2"->{Glide.with(context)
+                .load(R.drawable.level_2)
+                .into(holder.ivLevel)}
+            "Level 3"->{Glide.with(context)
+                .load(R.drawable.level_3)
+                .into(holder.ivLevel)}
+            "Level 4"->{Glide.with(context)
+                .load(R.drawable.level_4)
+                .into(holder.ivLevel)}
+            "Level 5"->{Glide.with(context)
+                .load(R.drawable.level_5)
+                .into(holder.ivLevel)}
+        }
         holder.clLevels.setOnClickListener {
             if (listener != null) {
                 listener?.onAdapterPositionViewHolderListener(position, holder, false, false, it)//fpr fab item
@@ -78,6 +96,7 @@ class LevelsAdapter(
         var clLevels: ConstraintLayout = view.clLevel
         var rcv: RecyclerView = view.rcvChild
         var fabAddItem: ImageView = view.fabAddItem
+        var ivLevel: ImageView = view.ivLevel
         var expand: ImageView = view.ivExpand
 
 

@@ -18,11 +18,14 @@ class LevelDialog : DialogFragment() {
 
         const val SUB_LEVEL_DATA = "subLevelData"
         const val LEVEL_ID = "levelID"
+        const val  TOTAL_WEIGHT="totalWeight"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.levels_details_dialog_layout, container, false)
         args = arguments ?: Bundle()
+        var totalRemaining=args!!.getInt(TOTAL_WEIGHT)
+      //  view.tvRemainingWeight.text="$totalRemaining% Remaining"
         var subLevelsDetailsItem = Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), SubLevelsDetailsItem::class.java)
         var levelId = args!!.getInt(LEVEL_ID)
         if (subLevelsDetailsItem != null) {

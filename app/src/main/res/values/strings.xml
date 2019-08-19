@@ -48,6 +48,7 @@
     <string name="no_record_found">No record found</string>
     <string name="level_1">Level 1</string>
     <string name="_23">23</string>
-    <string name="add_level">Add level</string>
+    <string name="add_level">Add level Item</string>
+    <string name="_73_remaining">73% Remaining</string>
 
 </resources>

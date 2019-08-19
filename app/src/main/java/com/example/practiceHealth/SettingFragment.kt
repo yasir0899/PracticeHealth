@@ -3,6 +3,10 @@ package com.example.practiceHealth
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.*
 import android.os.Bundle
 import android.util.Log
@@ -13,18 +17,29 @@ import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_setting.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SettingFragment : Fragment(), myListener {
+class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
+    var totalWeight:Int=0
+    override fun OnTotalWeightRecieved(totalWeight: Int) {
+        ToastUtil.showShortToast(requireContext(), totalWeight)
+        Log.e("OnTotalWeightRecieved", "$totalWeight")
+    }
+
     private val p = Paint()
     var adapterPosition = 0
     private var args: Bundle? = null
@@ -66,8 +81,20 @@ class SettingFragment : Fragment(), myListener {
 
             initSettingsItems()
         }
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            broadCastReceiver,
+            IntentFilter("TotalWeight")
+        )
     }
 
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            broadCastReceiver,
+            IntentFilter("TotalWeight")
+        )
+    }
     private fun initSettingsItems() {
         pbLevels.visibility = View.VISIBLE
         swipeRefreshLayout.isRefreshing = true
@@ -107,28 +134,46 @@ class SettingFragment : Fragment(), myListener {
 
             holder.fabAddItem.visibility = View.VISIBLE
             Log.e("visible", "$isVisibility")
-            /*    Glide.with(requireContext())
-                    .load(R.drawable.arrow_up)
-                    .into(holder.expand)*/
-            holder.expand.animate().rotation(holder.expand.rotation - 180).setDuration(400).start()
+            Glide.with(requireContext())
+                .load(R.drawable.arrow_up)
+                .into(holder.expand)
+            // holder.expand.animate().rotation(holder.expand.rotation - 180).setDuration(400).start()
 
         } else {
             isVisibility = false
             holder.rcv.visibility = View.GONE
             holder.fabAddItem.visibility = View.GONE
             Log.e("visible", "$isVisibility")
-            /* Glide.with(requireContext())
-                 .load(R.drawable.arrow_down)
-                 .into(holder.expand)*/
-            holder.expand.animate().rotation(holder.expand.rotation - 180).setDuration(400).start()
+            Glide.with(requireContext())
+                .load(R.drawable.arrow_down)
+                .into(holder.expand)
+            //  holder.expand.animate().rotation(holder.expand.rotation - 180).setDuration(400).start()
 
         }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: MessageEvent) {
+        ToastUtil.showShortToast(requireContext(), event.totalWeight)
+        Log.e("onMessageEvent", "${event.totalWeight}")
     }
 
     override fun itemClicked(position: Int) {
         val levelDialog = LevelDialog()
         args = Bundle()
         args!!.putInt(LevelDialog.LEVEL_ID, levelItemsList[position].levelId)
+        args!!.putInt(LevelDialog.TOTAL_WEIGHT,totalWeight)
         levelDialog.arguments = args
         levelDialog.setCallBack(object : LevelDialog.ItemAdded {
             override fun onCancel() {
@@ -317,5 +362,17 @@ class SettingFragment : Fragment(), myListener {
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
         itemTouchHelper.attachToRecyclerView(holder.rcv)
+    }
+
+    private val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+
+            val total = intent?.getIntExtra("totalWeightage",0)
+            totalWeight= total!!
+            if (total != null) {
+              //  ToastUtil.showShortToast(requireContext(), "$total")
+                Log.e("onReceive", "$total")
+            }
+        }
     }
 }
