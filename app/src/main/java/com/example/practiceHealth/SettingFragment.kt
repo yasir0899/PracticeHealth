@@ -3,16 +3,19 @@ package com.example.practiceHealth
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,21 +27,19 @@ import com.bumptech.glide.Glide
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.delete_dialog_layout.*
 import kotlinx.android.synthetic.main.fragment_setting.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
-    var totalWeight:Int=0
-    override fun OnTotalWeightRecieved(totalWeight: Int) {
-        ToastUtil.showShortToast(requireContext(), totalWeight)
-        Log.e("OnTotalWeightRecieved", "$totalWeight")
-    }
+class SettingFragment : Fragment(), myListener {
+    var totalWeight: Int = 0
+
+
+
+
 
     private val p = Paint()
     var adapterPosition = 0
@@ -95,6 +96,7 @@ class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
             IntentFilter("TotalWeight")
         )
     }
+
     private fun initSettingsItems() {
         pbLevels.visibility = View.VISIBLE
         swipeRefreshLayout.isRefreshing = true
@@ -104,7 +106,7 @@ class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
                 swipeRefreshLayout.isRefreshing = false
                 pbLevels.visibility = View.INVISIBLE
                 levelItemsList = it
-                adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity())
+                adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity(),fragmentManager)
                 rcvLevel.adapter = adapterU
                 adapterU.setOnAdapterClickListener(this)
 
@@ -153,27 +155,12 @@ class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: MessageEvent) {
-        ToastUtil.showShortToast(requireContext(), event.totalWeight)
-        Log.e("onMessageEvent", "${event.totalWeight}")
-    }
 
     override fun itemClicked(position: Int) {
         val levelDialog = LevelDialog()
         args = Bundle()
         args!!.putInt(LevelDialog.LEVEL_ID, levelItemsList[position].levelId)
-        args!!.putInt(LevelDialog.TOTAL_WEIGHT,totalWeight)
+        args!!.putInt(LevelDialog.TOTAL_WEIGHT, totalWeight)
         levelDialog.arguments = args
         levelDialog.setCallBack(object : LevelDialog.ItemAdded {
             override fun onCancel() {
@@ -270,11 +257,33 @@ class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
                         val deletedModel = levelItemsList[position].subLevelsDetails[adapterPosition]
                         Log.e("deletedModel", "$deletedModel")
                         // adapterU.deleteItem(position)
-                        levelItemsList[position].subLevelsDetails.removeAt(adapterPosition)
-                        levelItemsList[position].subLevelsDetails.size
-                        holder.rcv.adapter!!.notifyItemRemoved(adapterPosition)
-                        holder.rcv.adapter!!.notifyDataSetChanged()
-                        ToastUtil.showShortToast(requireContext(), "deleted")
+
+                        val dialog = Dialog(requireActivity())
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setCancelable(false)
+                        dialog.setContentView(R.layout.delete_dialog_layout)
+                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                        val mDialogCancel = dialog.tvNo
+                        mDialogCancel.setOnClickListener {
+                            val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
+                            vh.rcv.adapter?.notifyItemChanged(adapterPosition)
+                            dialog.dismiss()
+                        }
+                        val mDialogOk = dialog.tvYes
+                        mDialogOk.setOnClickListener {
+
+                            levelItemsList[position].subLevelsDetails.removeAt(adapterPosition)
+                            levelItemsList[position].subLevelsDetails.size
+                            holder.rcv.adapter!!.notifyItemRemoved(adapterPosition)
+                            holder.rcv.adapter!!.notifyDataSetChanged()
+                            ToastUtil.showShortToast(requireContext(), "deleted")
+                            dialog.cancel()
+                        }
+
+                        dialog.show()
+
+
                     } else {
                         val subLevelsDetailsItem = levelItemsList[position].subLevelsDetails[adapterPosition]
                         Log.e("subLevelsDetailsItem", "$subLevelsDetailsItem")
@@ -367,10 +376,10 @@ class SettingFragment : Fragment(), myListener, RecycleViewAutoListener {
     private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
 
-            val total = intent?.getIntExtra("totalWeightage",0)
-            totalWeight= total!!
+            val total = intent?.getIntExtra("totalWeightage", 0)
+            totalWeight = total!!
             if (total != null) {
-              //  ToastUtil.showShortToast(requireContext(), "$total")
+                //  ToastUtil.showShortToast(requireContext(), "$total")
                 Log.e("onReceive", "$total")
             }
         }

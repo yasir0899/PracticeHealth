@@ -50,5 +50,10 @@
     <string name="_23">23</string>
     <string name="add_level">Add level Item</string>
     <string name="_73_remaining">73% Remaining</string>
+    <string name="do_you_want_to_delete_it">Do you want to delete it?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="status">Status</string>
+    <string name="description">Description</string>
 
 </resources>

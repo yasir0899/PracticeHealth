@@ -11,13 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.levels_child_list.view.*
-import org.greenrobot.eventbus.EventBus
+
 
 
 class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, private val context: Context) : RecyclerView.Adapter<LevelsChildAdapter.ViewHolder>() {
     private var totalWeightage: Int=0
     var clickedPosition: Int = -1
-    private var listener: RecycleViewAutoListener? = null
+    private var listener: RecycleViewChildItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context).inflate(
@@ -35,12 +35,16 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
         totalWeightage += level.weightage
         holder.tvChild.text = level.sublevelName
         holder.tvWeight.text = level.weightage.toString()
-        EventBus.getDefault().post(MessageEvent(totalWeightage))
-       // listener?.OnTotalWeightRecieved(totalWeightage)
+       // listener?.onItemClicked(totalWeightage)
         val intent = Intent("TotalWeight")
         //            intent.putExtra("quantity",Integer.parseInt(quantity.getText().toString()));
         intent.putExtra("totalWeightage", totalWeightage)
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        holder.clChild.setOnClickListener {
+
+            listener!!.onItemClicked(position,level)
+
+        }
     }
 
 
@@ -61,8 +65,8 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
         return list[pos]
     }
 
-    fun OnTotalWeightRecieved(listener1: RecycleViewAutoListener) {
-        this.listener = listener1
+    fun onItemClickListener(listener: RecycleViewChildItemClickListener) {
+        this.listener = listener
     }
 
 
@@ -71,7 +75,7 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
     }
 
 
-    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
         var tvChild: TextView = view.tvChild

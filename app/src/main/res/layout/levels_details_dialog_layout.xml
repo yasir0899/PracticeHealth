@@ -49,7 +49,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             android:layout_marginTop="16dp">
 
-        e<com.google.android.material.textfield.TextInputEditText
+        e
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etText"
                 android:layout_width="match_parent"
                 android:textSize="@dimen/edit_text_size_16sp"
@@ -63,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/text"/>
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -94,7 +94,7 @@
                 android:textColor="#8c8888"
                 android:maxLines="10"
                 android:layout_height="wrap_content"
-                android:hint="@string/weight" />
+                android:hint="@string/weight"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -111,7 +111,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginEnd="16dp"/>
 
 
     <TextView
@@ -159,7 +159,7 @@
             android:background="#e5e7e9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"/>
 
     <View
             android:id="@+id/viewButtonVertical"
@@ -170,7 +170,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/viewButtonHorizontal"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
             android:text="@string/_73_remaining"
             android:layout_width="wrap_content"
@@ -183,4 +183,61 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
     />
+
+    <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupAddLevelItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="viewButtonVertical,viewButtonHorizontal,tvCancel,btnSave,inputLayoutWeight,inputLayoutText,"
+            android:visibility="visible"
+    />
+    <TextView
+            android:text="Can,t add new sub level item "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_regular"
+            android:id="@+id/tvAlert"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_view_size_18sp"
+            app:layout_constraintTop_toBottomOf="@id/viewNote" android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+
+    <View
+            android:id="@+id/viewCancelAlertHorizontal"
+
+            app:layout_constraintTop_toBottomOf="@+id/tvAlert"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#e5e7e9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
+    <TextView
+            android:text="@string/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/source_sans_semi_bold"
+            android:textSize="@dimen/text_view_size_21sp"
+            android:padding="@dimen/padding_10dp"
+            android:id="@+id/tvCancelAlert"
+            android:gravity="center_horizontal"
+            app:layout_constraintEnd_toStartOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/viewCancelAlertHorizontal"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupAddLevelItemAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tvCancelAlert,viewCancelAlertHorizontal,tvAlert"
+            android:visibility="gone"
+    />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
