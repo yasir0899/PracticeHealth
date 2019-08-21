@@ -87,7 +87,6 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     }
 
     override fun onAdapterClickListener(position: Int, fromShowAttachment: Boolean) {
-        ToastUtil.showShortToast(requireContext(), list[position].description)
         if (fromShowAttachment) {
            // ToastUtil.showShortToast(requireContext(),"${list[position].attachmentPath}")
             var dialog=ShowAttachmentDialog()
