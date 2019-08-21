@@ -32,7 +32,6 @@ class ShowAttachmentDialog : DialogFragment() {
         var subLevelsDetails = Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), SubItemDetails::class.java)
         if (subLevelsDetails != null) {
 
-
             val file = File(subLevelsDetails.attachmentPath)
             if (subLevelsDetails.attachmentPath == "" || !file.exists()) {
                 view.tvNoAttachment.visibility = View.VISIBLE

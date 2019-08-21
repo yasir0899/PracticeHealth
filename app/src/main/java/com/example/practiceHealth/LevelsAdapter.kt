@@ -26,11 +26,6 @@ class LevelsAdapter(
 ) : RecyclerView.Adapter<LevelsAdapter.ViewHolder>(), RecycleViewChildItemClickListener {
     private var listener: myListener? = null
     override fun onItemClicked(position: Int, subLevelsDetailsItem: SubLevelsDetailsItem) {
-
-
-        ToastUtil.showShortToast(context, "${subLevelsDetailsItem.sublevelName}")
-
-
         var subItemDetailsDialog=SubItemDetailsDialog()
          var  args = Bundle()
         args?.putString(SubItemDetailsDialog.SUB_LEVEL_DATA, Gson().toJson(subLevelsDetailsItem))
