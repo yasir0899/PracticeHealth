@@ -1,23 +1,16 @@
 package com.example.practiceHealth.utils
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.practiceHealth.R
 import com.example.practiceHealth.RecyclerViewItemClickListener
-import com.example.practiceHealth.myListener
 import kotlinx.android.synthetic.main.sub_item_desc_list.view.*
-import java.io.File
 
 class SubItemDetailsAdapter(
     private val subItemDetailsList: ArrayList<SubItemDetails>,
@@ -37,11 +30,21 @@ class SubItemDetailsAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clLevels.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        holder.clLevels.animation =
+            AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val list = subItemDetailsList[position]
         holder.description.text = list.description
-      //  holder.status.isChecked = list.status
+        //  holder.status.isChecked = list.status
 
+        holder.clLevels.setOnClickListener {
+
+            listener?.onAdapterClickListener(
+                position,
+                fromShowAttachment = false,
+                statusIsCheck = false,
+                fromCheckBox = false
+            )
+        }
 
     }
 
@@ -76,32 +79,31 @@ class SubItemDetailsAdapter(
         var clLevels: ConstraintLayout = view.clSubItemDetails
 
 
+        /*   init {
+               clLevels.setOnClickListener {
+                     listener?.onAdapterClickListener(adapterPosition,false,false,false)
 
-       init {
-           clLevels.setOnClickListener {
-                 listener?.onAdapterClickListener(adapterPosition,false,false,false)
-
-            }
-
-
-        }
-
-       /* init {
-            showAttactment.setOnClickListener {
-                listener?.onAdapterClickListener(adapterPosition, true,false,false)
-
-            }
-        }
-            init {
-            status.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-                if (listener != null) {
-                    listener?.onAdapterClickListener(adapterPosition,false,true,true)
                 }
-                Log.i("is Checked :", "$b")
 
-            }
 
-        }*/
+            }*/
+
+        /* init {
+             showAttactment.setOnClickListener {
+                 listener?.onAdapterClickListener(adapterPosition, true,false,false)
+
+             }
+         }
+             init {
+             status.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+                 if (listener != null) {
+                     listener?.onAdapterClickListener(adapterPosition,false,true,true)
+                 }
+                 Log.i("is Checked :", "$b")
+
+             }
+
+         }*/
     }
 
 

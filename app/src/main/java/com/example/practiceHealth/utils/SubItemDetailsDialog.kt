@@ -180,7 +180,7 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
 
                         val mDialogCancel = dialog.tvNo
                         mDialogCancel.setOnClickListener {
-
+                            adapterU.notifyItemChanged(adapterPosition)
                             dialog.dismiss()
                         }
                         val mDialogOk = dialog.tvYes
