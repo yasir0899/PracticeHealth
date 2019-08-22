@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.view.
 
 class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     private var userImageRealPath: String = ""
-    private  var positionFor:Int=0
+    private var positionFor: Int = 0
     private var args: Bundle? = null
     private lateinit var list: ArrayList<SubItemDetails>
     private lateinit var adapterU: SubItemDetailsAdapter
@@ -42,18 +42,43 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
         private const val REQUEST_GALLERY_CAPTURE = 2000
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.sub_level_item_details_dialog_layout, container, false)
         args = arguments ?: Bundle()
         var totalRemaining = args!!.getInt(TOTAL_WEIGHT)
         //  view.tvRemainingWeight.text="$totalRemaining% Remaining"
-        var subLevelsDetailsItem = Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), SubLevelsDetailsItem::class.java)
+        var subLevelsDetailsItem =
+            Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), SubLevelsDetailsItem::class.java)
         var levelId = args!!.getInt(LEVEL_ID)
         if (subLevelsDetailsItem != null) {
             view.tvSubItemDetailTitle.text = subLevelsDetailsItem.sublevelName
             view.tvSubItemDetailWeight.text = subLevelsDetailsItem.weightage.toString()
         }
 
+
+        view.fabSubItemDescription.setOnClickListener {
+            val dialog = AddSubItemDescriptionDialog()
+            args = Bundle()
+
+            dialog.setCallBack(object : AddSubItemDescriptionDialog.ItemAdded {
+                override fun onItemAdded(text: String) {
+                    list.add(SubItemDetails(false, text, ""))
+                    adapterU.notifyDataSetChanged()
+
+                }
+
+                override fun onCancel() {
+
+                }
+
+            })
+
+            dialog.show(requireFragmentManager(), "AddSubItemDescriptionDialog")
+        }
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -72,29 +97,40 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     }
 
     private fun initData() {
-        list.add(SubItemDetails(true, "test 1 2 3 4 5 ",""))
+        list.add(SubItemDetails(true, "test 1 2 3 4 5 ", ""))
 
-        list.add(SubItemDetails(false, "testing 1212 ",""))
-        list.add(SubItemDetails(true, "test is test ",""))
-        list.add(SubItemDetails(false, "test",""))
-        list.add(SubItemDetails(true, "test",""))
-        list.add(SubItemDetails(false, "test",""))
+        list.add(SubItemDetails(false, "testing 1212 ", ""))
+        list.add(SubItemDetails(true, "test is test ", ""))
+        list.add(SubItemDetails(false, "test", ""))
+        list.add(SubItemDetails(true, "test", ""))
+        list.add(SubItemDetails(false, "test", ""))
 
-        list.add(SubItemDetails(false, "Last one last stage",""))
+        list.add(SubItemDetails(false, "Last one last stage", ""))
         adapterU = SubItemDetailsAdapter(list, requireContext())
         rcvStatusDesc.adapter = adapterU
         adapterU.setOnAdapterClickListener(this)
     }
 
-    override fun onAdapterClickListener(position: Int, fromShowAttachment: Boolean) {
+    override fun onAdapterClickListener(
+        position: Int,
+        fromShowAttachment: Boolean,
+        statusIsCheck: Boolean,
+        fromCheckBox: Boolean
+    ) {
+
+
         if (fromShowAttachment) {
-           // ToastUtil.showShortToast(requireContext(),"${list[position].attachmentPath}")
-            var dialog=ShowAttachmentDialog()
-            args=Bundle()
+            // ToastUtil.showShortToast(requireContext(),"${list[position].attachmentPath}")
+            var dialog = ShowAttachmentDialog()
+            args = Bundle()
 
             args?.putString(ShowAttachmentDialog.SUB_LEVEL_DATA, Gson().toJson(list[position]))
-            dialog.arguments=args
-            dialog.show(requireFragmentManager(),"Dialog")
+            dialog.arguments = args
+            dialog.show(requireFragmentManager(), "Dialog")
+
+        } else if (fromCheckBox) {
+
+            list[position].status = statusIsCheck
 
         } else requestPermission(position)
 
@@ -102,12 +138,13 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     }
 
 
-    private fun requestPermission(postion:Int) {
+    private fun requestPermission(postion: Int) {
 
 
         Dexter.withActivity(requireActivity())
             .withPermissions(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
             )
             .withListener(object : MultiplePermissionsListener {
 
@@ -132,7 +169,11 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
                     /*  val dialog = PermissionDialog()
                       dialog.show(fragmentManager, "Dialog")*/
 
-                    val snack = Snackbar.make(clSubItemDetailsDialog, "For picking image from gallery  allow storage  permission from settings.", 8000)
+                    val snack = Snackbar.make(
+                        clSubItemDetailsDialog,
+                        "For picking image from gallery  allow storage  permission from settings.",
+                        8000
+                    )
                     snack.setActionTextColor(Color.WHITE)
                     snack.setAction("Setting") {
                         // executed when DISMISS is clicked
@@ -150,7 +191,7 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     private fun dispatchGalleryPictureIntent(position: Int) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_GALLERY_CAPTURE)
-        positionFor=position
+        positionFor = position
 
     }
 
@@ -170,7 +211,7 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
                                 val mImageUri: Uri = data.data!!
                                 userImageRealPath =
                                     NewRealPath.getRealPath(requireContext(), mImageUri).toString()
-                                list[positionFor].attachmentPath=userImageRealPath
+                                list[positionFor].attachmentPath = userImageRealPath
 
                                 adapterU.notifyItemChanged(positionFor)
                                 Log.i("mImageUri", "$mImageUri")

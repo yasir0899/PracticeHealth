@@ -56,5 +56,6 @@
     <string name="status">Status</string>
     <string name="description">Description</string>
     <string name="there_is_no_attachment_attached_to_this_item">There is no attachment attached to this item</string>
+    <string name="add_desc">Add description</string>
 
 </resources>

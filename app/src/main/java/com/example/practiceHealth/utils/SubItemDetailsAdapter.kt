@@ -1,11 +1,13 @@
 package com.example.practiceHealth.utils
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +40,7 @@ class SubItemDetailsAdapter(
         holder.clLevels.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val list = subItemDetailsList[position]
         holder.description.text = list.description
-        holder.status.isChecked = list.status
+      //  holder.status.isChecked = list.status
 
 
     }
@@ -72,14 +74,12 @@ class SubItemDetailsAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var description: TextView = view.tvItemDescription
         var clLevels: ConstraintLayout = view.clSubItemDetails
-        var attactment: ImageView = view.ivAttachment
-        var showAttactment: ImageView = view.ivShowAttachment
-        var status: CheckBox = view.cbStatus
 
 
-        init {
+
+   /*     init {
             attactment.setOnClickListener {
-                 listener?.onAdapterClickListener(adapterPosition,false)
+                 listener?.onAdapterClickListener(adapterPosition,false,false,false)
 
             }
 
@@ -87,12 +87,20 @@ class SubItemDetailsAdapter(
         }
         init {
             showAttactment.setOnClickListener {
-                listener?.onAdapterClickListener(adapterPosition,true)
+                listener?.onAdapterClickListener(adapterPosition, true,false,false)
+
+            }
+        }
+            init {
+            status.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+                if (listener != null) {
+                    listener?.onAdapterClickListener(adapterPosition,false,true,true)
+                }
+                Log.i("is Checked :", "$b")
 
             }
 
-
-        }
+        }*/
     }
 
 

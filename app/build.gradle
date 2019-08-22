@@ -21,8 +21,8 @@ android {
             buildConfigField 'String', 'API_BASE_URL', '"https://smartemr.mremind.com/api/"'
             shrinkResources true
             minifyEnabled true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            /*useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'*/
         }
         debug {
 
@@ -31,7 +31,7 @@ android {
 
             shrinkResources false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            /*proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
         }
     }
 }
