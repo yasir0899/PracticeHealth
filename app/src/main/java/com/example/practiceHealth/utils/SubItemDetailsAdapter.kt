@@ -77,15 +77,16 @@ class SubItemDetailsAdapter(
 
 
 
-   /*     init {
-            attactment.setOnClickListener {
+       init {
+           clLevels.setOnClickListener {
                  listener?.onAdapterClickListener(adapterPosition,false,false,false)
 
             }
 
 
         }
-        init {
+
+       /* init {
             showAttactment.setOnClickListener {
                 listener?.onAdapterClickListener(adapterPosition, true,false,false)
 

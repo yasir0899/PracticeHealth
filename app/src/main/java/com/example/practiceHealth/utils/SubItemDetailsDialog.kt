@@ -2,8 +2,10 @@ package com.example.practiceHealth.utils
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,7 +15,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.practiceHealth.R
 import com.example.practiceHealth.RecyclerViewItemClickListener
 import com.example.practiceHealth.SubLevelsDetailsItem
@@ -24,6 +29,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import kotlinx.android.synthetic.main.delete_dialog_layout.*
 import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.*
 import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.view.*
 
@@ -33,6 +39,9 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
     private var args: Bundle? = null
     private lateinit var list: ArrayList<SubItemDetails>
     private lateinit var adapterU: SubItemDetailsAdapter
+
+    private val p = Paint()
+    var adapterPosition = 0
 
     companion object {
 
@@ -65,6 +74,10 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
             args = Bundle()
 
             dialog.setCallBack(object : AddSubItemDescriptionDialog.ItemAdded {
+                override fun onUpdated(text: String) {
+
+                }
+
                 override fun onItemAdded(text: String) {
                     list.add(SubItemDetails(false, text, ""))
                     adapterU.notifyDataSetChanged()
@@ -118,25 +131,181 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
         fromCheckBox: Boolean
     ) {
 
+        enableSwipe(position)
+        /*  if (fromShowAttachment) {
+              // ToastUtil.showShortToast(requireContext(),"${list[position].attachmentPath}")
+              var dialog = ShowAttachmentDialog()
+              args = Bundle()
 
-        if (fromShowAttachment) {
-            // ToastUtil.showShortToast(requireContext(),"${list[position].attachmentPath}")
-            var dialog = ShowAttachmentDialog()
-            args = Bundle()
+              args?.putString(ShowAttachmentDialog.SUB_LEVEL_DATA, Gson().toJson(list[position]))
+              dialog.arguments = args
+              dialog.show(requireFragmentManager(), "Dialog")
 
-            args?.putString(ShowAttachmentDialog.SUB_LEVEL_DATA, Gson().toJson(list[position]))
-            dialog.arguments = args
-            dialog.show(requireFragmentManager(), "Dialog")
+          } else if (fromCheckBox) {
 
-        } else if (fromCheckBox) {
+              list[position].status = statusIsCheck
 
-            list[position].status = statusIsCheck
-
-        } else requestPermission(position)
+          } else requestPermission(position)*/
 
 
     }
 
+    private fun enableSwipe(position: Int) {
+
+        val simpleItemTouchCallback =
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapterPosition = viewHolder.adapterPosition
+                    Log.e("ap&p", "$adapterPosition : $position")
+                    if (direction == ItemTouchHelper.LEFT) {
+                        val deletedModel = list[position]
+                        Log.e("deletedModel", "$deletedModel")
+                        // adapterU.deleteItem(position)
+
+                        val dialog = Dialog(requireActivity())
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setCancelable(false)
+                        dialog.setContentView(R.layout.delete_dialog_layout)
+                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                        val mDialogCancel = dialog.tvNo
+                        mDialogCancel.setOnClickListener {
+
+                            dialog.dismiss()
+                        }
+                        val mDialogOk = dialog.tvYes
+                        mDialogOk.setOnClickListener {
+
+                            list.removeAt(adapterPosition)
+                            list.size
+                            adapterU.notifyItemRemoved(adapterPosition)
+                            adapterU.notifyDataSetChanged()
+                            ToastUtil.showShortToast(requireContext(), "deleted")
+                            dialog.cancel()
+                        }
+
+                        dialog.show()
+
+
+                    } else {
+                        val subLevelsDetailsItemDescription = list[position]
+                        Log.e("subLevelsDetailsItem", "$subLevelsDetailsItemDescription")
+                        ToastUtil.showShortToast(requireContext(), "edit")
+                        args = Bundle()
+                        args?.putString(
+                            AddSubItemDescriptionDialog.DESCRIPTION,
+                            Gson().toJson(subLevelsDetailsItemDescription)
+                        )
+                        val addSubItemDescriptionDialog = AddSubItemDescriptionDialog()
+                        addSubItemDescriptionDialog.arguments = args
+                        addSubItemDescriptionDialog.setCallBack(object :
+                            AddSubItemDescriptionDialog.ItemAdded {
+                            override fun onUpdated(text: String) {
+
+                                list[adapterPosition].description = text
+                                adapterU.notifyItemChanged(adapterPosition)
+
+                            }
+
+                            override fun onItemAdded(text: String) {
+
+
+                            }
+
+                            override fun onCancel() {
+                                adapterU.notifyItemChanged(adapterPosition)
+                            }
+
+                        })
+                        addSubItemDescriptionDialog.show(
+                            requireFragmentManager(),
+                            "AddSubItemDescriptionDialog"
+                        )
+                    }
+                }
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+
+                    val icon: Bitmap
+                    val res = context!!.resources
+                    if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+
+                        val itemView = viewHolder.itemView
+                        val height = itemView.bottom.toFloat() - itemView.top.toFloat()
+                        val width = height / 3
+
+                        if (dX > 0) {
+                            p.color = Color.parseColor("#388E3C")
+                            val background =
+                                RectF(
+                                    itemView.left.toFloat(),
+                                    itemView.top.toFloat(),
+                                    dX,
+                                    itemView.bottom.toFloat()
+                                )
+                            c.drawRect(background, p)
+
+                            icon = BitmapFactory.decodeResource(res, R.drawable.edit)
+                            val icon_dest = RectF(
+                                itemView.left.toFloat() + width,
+                                itemView.top.toFloat() + width,
+                                itemView.left.toFloat() + 2 * width,
+                                itemView.bottom.toFloat() - width
+                            )
+                            c.drawBitmap(icon, null, icon_dest, p)
+                        } else {
+                            p.color = Color.parseColor("#D32F2F")
+                            val background = RectF(
+                                itemView.right.toFloat() + dX,
+                                itemView.top.toFloat(),
+                                itemView.right.toFloat(),
+                                itemView.bottom.toFloat()
+                            )
+                            c.drawRect(background, p)
+
+                            icon = BitmapFactory.decodeResource(res, R.drawable.delete)
+                            val icon_dest = RectF(
+                                itemView.right.toFloat() - 2 * width,
+                                itemView.top.toFloat() + width,
+                                itemView.right.toFloat() - width,
+                                itemView.bottom.toFloat() - width
+                            )
+                            c.drawBitmap(icon, null, icon_dest, p)
+                        }
+                    }
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            }
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+
+        itemTouchHelper.attachToRecyclerView(rcvStatusDesc)
+    }
 
     private fun requestPermission(postion: Int) {
 

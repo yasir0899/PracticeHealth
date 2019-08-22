@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.practiceHealth.R
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.dialog_layout.view.*
 import kotlinx.android.synthetic.main.levels_details_dialog_layout.view.*
 
@@ -16,21 +17,36 @@ class AddSubItemDescriptionDialog : DialogFragment() {
 
     companion object {
 
-        const val SUB_LEVEL_DATA = "subLevelData"
-        const val LEVEL_ID = "levelID"
-        const val  TOTAL_WEIGHT="totalWeight"
+        const val DESCRIPTION = "description"
+
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.dialog_layout, container, false)
         args = arguments ?: Bundle()
-
+        var subItemDetails =
+            Gson().fromJson(args!!.getString(DESCRIPTION), SubItemDetails::class.java)
         view.etAddSubItemDescription.requestFocus()
+        if (subItemDetails != null) {
+
+            view.etAddSubItemDescription.setText(subItemDetails.description)}
         view.tvSaveSubItemDescription.setOnClickListener {
             if (isSubmitAble()) {
-                val text = view.etAddSubItemDescription.text.toString()
+                if (subItemDetails != null) {
+                    delegate?.onUpdated(view.etAddSubItemDescription.text.toString())
+                } else {
+                    delegate?.onItemAdded(view.etAddSubItemDescription.text.toString())
+                }
+
+
+
+
+
                 dismiss()
-                 delegate?.onItemAdded(text)
             }
         }
 
@@ -55,6 +71,8 @@ class AddSubItemDescriptionDialog : DialogFragment() {
         fun onItemAdded(text: String)
 
         fun onCancel()
+
+        fun onUpdated(text: String)
     }
 
     private fun isSubmitAble(): Boolean {
@@ -66,8 +84,9 @@ class AddSubItemDescriptionDialog : DialogFragment() {
     private fun validateText(): Boolean {
         return when {
             (view!!.etAddSubItemDescription.text.toString().trim { it <= ' ' }.isEmpty()) -> {
-                view!!.inputLayoutAddSubItemDescription.error = getString(R.string.please_enter_sub_level_name)
-                AppUtils.requestFocus(requireActivity(), view!!.etText)
+                view!!.inputLayoutAddSubItemDescription.error =
+                    getString(R.string.please_enter_sub_level_name)
+                AppUtils.requestFocus(requireActivity(), view!!.etAddSubItemDescription)
                 false
             }
 
