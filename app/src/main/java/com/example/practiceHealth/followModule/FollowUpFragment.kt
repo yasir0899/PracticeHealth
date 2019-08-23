@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.followModule
 
 
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.practiceHealth.activities.MainActivity
+import com.example.practiceHealth.R
 
 
 class FollowUpFragment : Fragment() {

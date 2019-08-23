@@ -1,4 +1,4 @@
-package com.example.practiceHealth.models
+package com.example.practiceHealth.models.homeListModel
 
 data class HomeItems (
 

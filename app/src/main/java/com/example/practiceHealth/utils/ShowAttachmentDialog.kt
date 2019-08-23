@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.example.practiceHealth.R
+import com.example.practiceHealth.SubItemDetails
+import com.example.practiceHealth.adapters.SubItemDetailsAdapter
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.show_attachment_dialog_layout.view.*
-import kotlinx.android.synthetic.main.sub_item_desc_list.view.*
 import java.io.File
 
 class ShowAttachmentDialog : DialogFragment() {

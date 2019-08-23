@@ -1,7 +1,8 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.settingsModule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.practiceHealth.models.responseModels.LevelsDto
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 
 class LevelsVM:ViewModel() {

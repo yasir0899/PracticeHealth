@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.homeModule
 
 
 import android.os.Bundle
@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.practiceHealth.activities.MainActivity
+import com.example.practiceHealth.R
 import com.example.practiceHealth.adapters.HomeAdapter
-import com.example.practiceHealth.models.HomeItems
+import com.example.practiceHealth.models.homeListModel.HomeItems
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -32,7 +34,9 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         args = arguments ?: Bundle()
         (context as MainActivity).toolBarsCenterTitle("")
-        (activity as MainActivity).supportActionBar?.title = getString(R.string.home)
+        (activity as MainActivity).supportActionBar?.title = getString(
+            R.string.home
+        )
         (activity as MainActivity).toolbar.visibility = View.VISIBLE
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)

@@ -1,11 +1,11 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.activities
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.practiceHealth.R
 import com.example.practiceHealth.utils.ToastUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*

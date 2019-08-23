@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
 import com.example.practiceHealth.utils.AppUtils
 import com.example.practiceHealth.utils.ToastUtil

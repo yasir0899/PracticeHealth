@@ -20,8 +20,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practiceHealth.R
-import com.example.practiceHealth.RecyclerViewItemClickListener
-import com.example.practiceHealth.SubLevelsDetailsItem
+import com.example.practiceHealth.SubItemDetails
+import com.example.practiceHealth.adapters.SubItemDetailsAdapter
+import com.example.practiceHealth.interfaces.RecyclerViewItemDetailsClickListener
+import com.example.practiceHealth.models.responseModels.SubLevelsDetailsItem
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
@@ -33,7 +35,8 @@ import kotlinx.android.synthetic.main.delete_dialog_layout.*
 import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.*
 import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.view.*
 
-class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
+class SubItemDetailsDialog : DialogFragment(),
+    RecyclerViewItemDetailsClickListener {
     private var userImageRealPath: String = ""
     private var positionFor: Int = 0
     private var args: Bundle? = null
@@ -65,7 +68,7 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
         var levelId = args!!.getInt(LEVEL_ID)
         if (subLevelsDetailsItem != null) {
             view.tvSubItemDetailTitle.text = subLevelsDetailsItem.sublevelName
-            view.tvSubItemDetailWeight.text = subLevelsDetailsItem.weightage.toString()
+            view.tvSubItemDetailWeight.text = "weightage : " + subLevelsDetailsItem.weightage.toString()
         }
 
 
@@ -97,7 +100,7 @@ class SubItemDetailsDialog : DialogFragment(), RecyclerViewItemClickListener {
         val height = displayMetrics.heightPixels
         val width = displayMetrics.widthPixels
 
-        dialog?.window?.setLayout((width * 0.8).toInt(), (height * 0.4).toInt())
+        dialog?.window?.setLayout((width * 0.1).toInt(), (height * 0.4).toInt())
         return view
     }
 

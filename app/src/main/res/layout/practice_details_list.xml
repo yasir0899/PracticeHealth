@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="32dp"
     android:layout_marginEnd="32dp"
@@ -12,39 +13,76 @@
 
 
     <CheckBox
-        android:text="@string/credentialing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/cb1"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_view_size_17sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:drawableStart="@drawable/custom_checkbox"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/source_sans_bold"
-        android:button="@color/white"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/ivAddNote"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:drawableLeft="@drawable/custom_checkbox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="12dp" />
+            android:id="@+id/cb1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@android:color/transparent"
+            android:button="@color/white"
+            android:drawableStart="@drawable/custom_checkbox"
+            android:drawableLeft="@drawable/custom_checkbox"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/source_sans_bold"
+            android:text="@string/credentialing"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_view_size_17sp"
+            app:layout_constraintBottom_toTopOf="@+id/rcvPracticeDetailsDescription"
+            app:layout_constraintEnd_toStartOf="@+id/ivAddNote"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
-        android:src="@drawable/add_note"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="@dimen/padding_10dp"
-        android:contentDescription="@string/desc"
-        android:id="@+id/ivAddNote"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cb1"
-        app:layout_constraintBottom_toBottomOf="@+id/cb1"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+            android:id="@+id/ivAddNote"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/desc"
+            android:padding="@dimen/padding_10dp"
+            android:src="@drawable/add_note"
+            app:layout_constraintBottom_toBottomOf="@+id/cb1"
+            app:layout_constraintEnd_toStartOf="@+id/ivAddAttachment"
+            app:layout_constraintTop_toTopOf="@+id/cb1"
+            app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+            android:id="@+id/ivAddAttachment"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/desc"
+            android:padding="@dimen/padding_10dp"
+            android:src="@drawable/ic_attach_file_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAddNote"
+            app:layout_constraintTop_toTopOf="@+id/ivAddNote"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/ivShowAttachment"
+            tools:layout_editor_absoluteX="249dp" />
+
+    <ImageView
+            android:id="@+id/ivShowAttachment"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/open_eye"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAddAttachment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivAddAttachment"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvPracticeDetailsDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/prac_item_desc_list"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

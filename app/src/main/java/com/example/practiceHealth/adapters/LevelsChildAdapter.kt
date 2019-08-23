@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.practiceHealth.R
+import com.example.practiceHealth.interfaces.RecycleViewChildItemClickListener
+import com.example.practiceHealth.models.responseModels.SubLevelsDetailsItem
 import kotlinx.android.synthetic.main.levels_child_list.view.*
 
 
@@ -29,7 +32,9 @@ class LevelsChildAdapter(private var list: ArrayList<SubLevelsDetailsItem>, priv
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clChild.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        holder.clChild.animation = AnimationUtils.loadAnimation(context,
+            R.anim.fade_transition_animation
+        )
         val level = list[position]
         //holder.title.text = level.levelName
         totalWeightage += level.weightage

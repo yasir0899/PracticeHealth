@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.practiceHealth.R
+import com.example.practiceHealth.SubItemDetails
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.dialog_layout.view.*
-import kotlinx.android.synthetic.main.levels_details_dialog_layout.view.*
 
 class AddSubItemDescriptionDialog : DialogFragment() {
     private var delegate: ItemAdded? = null

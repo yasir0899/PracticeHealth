@@ -1,7 +1,7 @@
 package com.example.practiceHealth.restAPI
 
 
-import com.example.practiceHealth.LevelsDto
+import com.example.practiceHealth.models.responseModels.LevelsDto
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 import com.example.practiceHealth.models.requestModels.PracticeStageLevelRequestModel
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel

@@ -36,7 +36,8 @@ class PracticeDetailsAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clPracticeDetailsList.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        holder.clPracticeDetailsList.animation =
+            AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val obj = practiceItemsList[position]
         holder.checkBox.text = obj.levelName
         //true
@@ -60,18 +61,69 @@ class PracticeDetailsAdapter(
         holder.image.setOnClickListener {
 
             if (listener != null) {
-                listener?.onAdapterPositionViewHolderListener(position, holder, b = false, fromCheckBox = false)
+                listener?.onAdapterPositionViewHolderListener(
+                    position,
+                    holder,
+                    b = false,
+                    fromCheckBox = false,
+                    fromAddNote=true,
+                    fromAddAttach = false,
+                    fromShowAttachment = false
+
+                )
             }
 
         }
 
         holder.checkBox.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
             if (listener != null) {
-                listener?.onAdapterPositionViewHolderListener(position,holder,b,true)
+                listener?.onAdapterPositionViewHolderListener(
+                    position, holder, b, true,
+                    fromAddNote=false,
+                    fromAddAttach = false,
+                    fromShowAttachment = false
+                )
             }
             Log.i("is Checked :", "$b")
 
         }
+
+        holder.attachment.setOnClickListener {
+            listener?.onAdapterPositionViewHolderListener(
+                position, holder,
+                b = false,
+                fromCheckBox = false,
+                fromAddNote=false,
+                fromAddAttach = true,
+                fromShowAttachment = false
+            )
+
+        }
+        holder.showAttachment.setOnClickListener {
+            listener?.onAdapterPositionViewHolderListener(
+                position, holder,
+                b = false,
+                fromCheckBox = false,
+                fromAddNote=false,
+                fromAddAttach = false,
+                fromShowAttachment = true
+            )
+
+        }
+
+        holder.clPracticeDetailsList.setOnClickListener {
+
+            listener?.onAdapterPositionViewHolderListener(
+                position, holder,
+                b = false,
+                fromCheckBox = false,
+                fromAddNote=false,
+                fromAddAttach = false,
+                fromShowAttachment = false
+            )
+
+        }
+
     }
 
     var clickedPosition: Int = -1
@@ -102,6 +154,8 @@ class PracticeDetailsAdapter(
 
         var checkBox: CheckBox = view.cb1
         var image: ImageView = view.ivAddNote
+        var attachment: ImageView = view.ivAddAttachment
+        var showAttachment: ImageView = view.ivShowAttachment
         var clPracticeDetailsList: ConstraintLayout = view.clPracticeDetailsList
 
 

@@ -9,12 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
 import com.example.practiceHealth.adapters.NewPracticesAdapter
 import com.example.practiceHealth.homeModule.practiceDetailModule.PracticeDetailsFragment
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
-import com.example.practiceHealth.models.NewPracticeItems
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_new_practices.*
@@ -25,7 +24,6 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
         ViewModelProviders.of(this).get(NewPracticesVM::class.java)
     }
 
-    private lateinit var newPracticeItems: ArrayList<NewPracticeItems>
     private lateinit var adapterU: NewPracticesAdapter
     private var args: Bundle? = null
     override fun onCreateView(
@@ -44,7 +42,7 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as MainActivity).hideSignOutOption()
         args = arguments ?: Bundle()
-        newPracticeItems = ArrayList()
+
 
         initNewPracticeItems()
 
@@ -54,7 +52,7 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
     private fun initNewPracticeItems() {
         pbNewPractices.visibility=View.VISIBLE
         newPracticesVM.getNewPractices("1")?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
-            newPracticeItems.clear()
+
 
             pbNewPractices.visibility=View.INVISIBLE
             if (it != null) {

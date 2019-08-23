@@ -1,7 +1,8 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.settingsModule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.practiceHealth.models.responseModels.LevelsDto
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
 import com.example.practiceHealth.restAPI.ErrorDto
 import com.example.practiceHealth.restAPI.RestApiClient

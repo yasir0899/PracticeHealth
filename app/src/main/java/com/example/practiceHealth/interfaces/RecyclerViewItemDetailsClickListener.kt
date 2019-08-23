@@ -1,5 +1,5 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.interfaces
 
-interface RecyclerViewItemClickListener {
+interface RecyclerViewItemDetailsClickListener {
     fun onAdapterClickListener(position: Int,fromShowAttachment:Boolean,statusIsCheck:Boolean,fromCheckBox:Boolean)
 }

@@ -1,6 +1,7 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.interfaces
 
 import android.view.View
+import com.example.practiceHealth.adapters.LevelsAdapter
 
 interface myListener {
     fun onAdapterPositionViewHolderListener(

@@ -1,4 +1,4 @@
-package com.example.practiceHealth.utils
+package com.example.practiceHealth.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,14 +9,15 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practiceHealth.R
-import com.example.practiceHealth.RecyclerViewItemClickListener
+import com.example.practiceHealth.interfaces.RecyclerViewItemDetailsClickListener
+import com.example.practiceHealth.SubItemDetails
 import kotlinx.android.synthetic.main.sub_item_desc_list.view.*
 
 class SubItemDetailsAdapter(
     private val subItemDetailsList: ArrayList<SubItemDetails>,
     private val context: Context
 ) : RecyclerView.Adapter<SubItemDetailsAdapter.ViewHolder>() {
-    private var listener: RecyclerViewItemClickListener? = null
+    private var listener: RecyclerViewItemDetailsClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context).inflate(
@@ -64,7 +65,7 @@ class SubItemDetailsAdapter(
         return subItemDetailsList[pos]
     }
 
-    fun setOnAdapterClickListener(listener1: RecyclerViewItemClickListener) {
+    fun setOnAdapterClickListener(listener1: RecyclerViewItemDetailsClickListener) {
         this.listener = listener1
     }
 

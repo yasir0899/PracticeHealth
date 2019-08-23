@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.example.practiceHealth.R
-import com.example.practiceHealth.models.HomeItems
+import com.example.practiceHealth.models.homeListModel.HomeItems
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
 import kotlinx.android.synthetic.main.home_list.view.*
 

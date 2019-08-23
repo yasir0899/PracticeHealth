@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
 import com.example.practiceHealth.adapters.NewPracticesAdapter
 import com.example.practiceHealth.homeModule.newPracticeModule.NewPracticesVM

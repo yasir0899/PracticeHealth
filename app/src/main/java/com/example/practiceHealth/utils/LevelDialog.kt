@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.utils
 
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.example.practiceHealth.utils.AppUtils
+import com.example.practiceHealth.R
+import com.example.practiceHealth.models.responseModels.SubLevelsDetailsItem
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.levels_details_dialog_layout.view.*
 

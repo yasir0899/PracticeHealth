@@ -8,6 +8,9 @@ interface RecyclerViewItemPositionViewHolderClickListener {
         position: Int,
         holder: PracticeDetailsAdapter.ViewHolder,
         b: Boolean,
-        fromCheckBox: Boolean
+        fromCheckBox: Boolean,
+        fromAddNote:Boolean,
+        fromAddAttach:Boolean,
+        fromShowAttachment:Boolean
     )
 }

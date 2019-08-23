@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.settingsModule
 
 
 import android.animation.Animator
@@ -24,7 +24,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.practiceHealth.*
+import com.example.practiceHealth.activities.MainActivity
+import com.example.practiceHealth.adapters.LevelsAdapter
+import com.example.practiceHealth.interfaces.myListener
 import com.example.practiceHealth.models.requestModels.AddSubItemRequestModel
+import com.example.practiceHealth.models.responseModels.LevelsDto
+import com.example.practiceHealth.models.responseModels.SubLevelsDetailsItem
+import com.example.practiceHealth.utils.LevelDialog
 import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.delete_dialog_layout.*
@@ -49,7 +56,6 @@ class SettingFragment : Fragment(), myListener {
         ViewModelProviders.of(this).get(LevelsVM::class.java)
     }
 
-    lateinit var test: ArrayList<LevelsDetailsItems>
     var isVisibility: Boolean = false
     private lateinit var levelItemsList: ArrayList<LevelsDto>
     private lateinit var adapterU: LevelsAdapter
@@ -71,7 +77,6 @@ class SettingFragment : Fragment(), myListener {
         super.onViewCreated(view, savedInstanceState)
         args = arguments ?: Bundle()
         levelItemsList = ArrayList()
-        test = ArrayList()
         (activity as MainActivity).supportActionBar?.title = ""
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -106,7 +111,12 @@ class SettingFragment : Fragment(), myListener {
                 swipeRefreshLayout.isRefreshing = false
                 pbLevels.visibility = View.INVISIBLE
                 levelItemsList = it
-                adapterU = LevelsAdapter(levelItemsList, requireContext(), requireActivity(),fragmentManager)
+                adapterU = LevelsAdapter(
+                    levelItemsList,
+                    requireContext(),
+                    requireActivity(),
+                    fragmentManager
+                )
                 rcvLevel.adapter = adapterU
                 adapterU.setOnAdapterClickListener(this)
 
@@ -292,7 +302,8 @@ class SettingFragment : Fragment(), myListener {
                         args?.putString(LevelDialog.SUB_LEVEL_DATA, Gson().toJson(subLevelsDetailsItem))
                         val levelDialog = LevelDialog()
                         levelDialog.arguments = args
-                        levelDialog.setCallBack(object : LevelDialog.ItemAdded {
+                        levelDialog.setCallBack(object :
+                            LevelDialog.ItemAdded {
                             override fun onCancel() {
                                 val vh = rcvLevel.findViewHolderForAdapterPosition(position) as LevelsAdapter.ViewHolder
                                 vh.rcv.adapter?.notifyItemChanged(adapterPosition)
@@ -337,7 +348,9 @@ class SettingFragment : Fragment(), myListener {
                                 RectF(itemView.left.toFloat(), itemView.top.toFloat(), dX, itemView.bottom.toFloat())
                             c.drawRect(background, p)
 
-                            icon = BitmapFactory.decodeResource(res, R.drawable.edit)
+                            icon = BitmapFactory.decodeResource(res,
+                                R.drawable.edit
+                            )
                             val icon_dest = RectF(
                                 itemView.left.toFloat() + width,
                                 itemView.top.toFloat() + width,
@@ -355,7 +368,9 @@ class SettingFragment : Fragment(), myListener {
                             )
                             c.drawRect(background, p)
 
-                            icon = BitmapFactory.decodeResource(res, R.drawable.delete)
+                            icon = BitmapFactory.decodeResource(res,
+                                R.drawable.delete
+                            )
                             val icon_dest = RectF(
                                 itemView.right.toFloat() - 2 * width,
                                 itemView.top.toFloat() + width,

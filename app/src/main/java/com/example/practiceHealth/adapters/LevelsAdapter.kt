@@ -1,4 +1,4 @@
-package com.example.practiceHealth
+package com.example.practiceHealth.adapters
 
 import android.app.Activity
 import android.content.Context
@@ -13,8 +13,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.practiceHealth.R
+import com.example.practiceHealth.interfaces.RecycleViewChildItemClickListener
+import com.example.practiceHealth.interfaces.myListener
+import com.example.practiceHealth.models.responseModels.LevelsDto
+import com.example.practiceHealth.models.responseModels.SubLevelsDetailsItem
 import com.example.practiceHealth.utils.SubItemDetailsDialog
-import com.example.practiceHealth.utils.ToastUtil
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.levels_list.view.*
 
@@ -23,7 +27,8 @@ class LevelsAdapter(
     private val context: Context,
     private val requireActivity: Activity,
     private var fragmentManager: FragmentManager?
-) : RecyclerView.Adapter<LevelsAdapter.ViewHolder>(), RecycleViewChildItemClickListener {
+) : RecyclerView.Adapter<LevelsAdapter.ViewHolder>(),
+    RecycleViewChildItemClickListener {
     private var listener: myListener? = null
     override fun onItemClicked(position: Int, subLevelsDetailsItem: SubLevelsDetailsItem) {
         var subItemDetailsDialog=SubItemDetailsDialog()
@@ -47,10 +52,13 @@ class LevelsAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clLevels.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        holder.clLevels.animation = AnimationUtils.loadAnimation(context,
+            R.anim.fade_transition_animation
+        )
         val level = levelList[position]
         holder.title.text = level.levelName
-        var adapterU = LevelsChildAdapter(level.subLevelsDetails, context)
+        var adapterU =
+            LevelsChildAdapter(level.subLevelsDetails, context)
         holder.rcv.adapter = adapterU
         adapterU.onItemClickListener(this)
         /* val resId = R.anim.layout_animation_fall_down

@@ -1,10 +1,16 @@
 package com.example.practiceHealth.homeModule.practiceDetailModule
 
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,22 +21,30 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.example.practiceHealth.MainActivity
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
-
 import com.example.practiceHealth.adapters.PracticeDetailsAdapter
 import com.example.practiceHealth.interfaces.RecyclerViewItemPositionViewHolderClickListener
 import com.example.practiceHealth.models.requestModels.PracticeStageLevelRequestModel
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel
 import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
-import com.example.practiceHealth.utils.ToastUtil
+import com.example.practiceHealth.utils.NewRealPath
+import com.example.practiceHealth.utils.ShowAttachmentDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.details_dialog_layout.*
 import kotlinx.android.synthetic.main.fragment_practice_details.*
+import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.*
 
 
 class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderClickListener {
-
+    private var userImageRealPath: String = ""
+    private var positionFor: Int = 0
     private var practiceStageId: String? = ""
     private val practiceDetailsVM: PracticeDetailsVM by lazy {
         ViewModelProviders.of(this).get(PracticeDetailsVM::class.java)
@@ -43,7 +57,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
     companion object {
 
         const val PRACTICE = "practice"
-
+        private const val REQUEST_GALLERY_CAPTURE = 2000
     }
 
     override fun onCreateView(
@@ -61,9 +75,11 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as MainActivity).hideSignOutOption()
         args = arguments ?: Bundle()
-        var newPracticeItems = Gson().fromJson(args!!.getString(PRACTICE), NewPracticesResponseModel::class.java)
+        var newPracticeItems =
+            Gson().fromJson(args!!.getString(PRACTICE), NewPracticesResponseModel::class.java)
         tvPracticeName.text = newPracticeItems.practice
-        tvPracticeName.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        tvPracticeName.animation =
+            AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         practiceStageId = newPracticeItems.practiceStageId
         practiceDetailsItemsList = ArrayList()
 
@@ -97,49 +113,158 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         position: Int,
         holder: PracticeDetailsAdapter.ViewHolder,
         b: Boolean,
-        fromCheckBox: Boolean
+        fromCheckBox: Boolean,
+        fromAddNote: Boolean,
+        fromAddAttach: Boolean,
+        fromShowAttachment: Boolean
     ) {
         var isCheck = if (b) {
             1
         } else {
             0
         }
-        if (fromCheckBox) {
+        when {
+            fromCheckBox -> {
 
-            val item =
-                PracticeDetailsResponseModel(
-                    adapterU.getItem(position).practiceStageLevelId,
-                    adapterU.getItem(position).notes,
-                    isCheck,
-                    adapterU.getItem(position).levelName,
-                    adapterU.getItem(position).stageLevelId
+                val item =
+                    PracticeDetailsResponseModel(
+                        adapterU.getItem(position).practiceStageLevelId,
+                        adapterU.getItem(position).notes,
+                        isCheck,
+                        adapterU.getItem(position).levelName,
+                        adapterU.getItem(position).stageLevelId
+                    )
+                //ToastUtil.showShortToast(requireContext(), "$item")
+                var obj = PracticeStageLevelRequestModel(
+                    0,
+                    item.notes.toString(),
+                    practiceStageId!!.toInt(),
+                    0,
+                    b,
+                    "",
+                    item.practiceStageLevelId,
+                    false,
+                    "",
+                    item.stageLevelId
                 )
-            //ToastUtil.showShortToast(requireContext(), "$item")
-            var obj = PracticeStageLevelRequestModel(
-                0,
-                item.notes.toString(),
-                practiceStageId!!.toInt(),
-                0,
-                b,
-                "",
-                item.practiceStageLevelId,
-                false,
-                "",
-                item.stageLevelId
-            )
-            val g = Gson().toJson(obj)
-            Log.e("gson", "$g")
-            practiceDetailsVM.updatePracticesDetails(obj).observe(this, Observer<String> {
-                // initPracticeDetailsItems(practiceStageId)
+                val g = Gson().toJson(obj)
+                Log.e("gson", "$g")
+                practiceDetailsVM.updatePracticesDetails(obj).observe(this, Observer<String> {
+                    // initPracticeDetailsItems(practiceStageId)
 
-            })
+                })
 
 
-        } else {
-            showDialog(requireActivity(), position, holder, b)
+            }
+            fromAddAttach -> requestPermission(position)
+            fromShowAttachment -> {
+                var dialog = ShowAttachmentDialog()
+                args = Bundle()
+
+                args?.putString(
+                    ShowAttachmentDialog.SUB_LEVEL_DATA,
+                    Gson().toJson(practiceDetailsItemsList[position])
+                )
+                dialog.arguments = args
+                dialog.show(requireFragmentManager(), "Dialog")
+
+
+            }
+            fromAddNote -> showDialog(requireActivity(), position, holder, b)
+            else -> {
+
+
+            }
         }
     }
 
+    private fun requestPermission(postion: Int) {
+
+
+        Dexter.withActivity(requireActivity())
+            .withPermissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            .withListener(object : MultiplePermissionsListener {
+
+
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    if (report?.areAllPermissionsGranted()!!) {
+
+                        dispatchGalleryPictureIntent(postion)
+
+
+                    }
+                }
+
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token?.cancelPermissionRequest()
+                    // this is rationale permission dialog
+                    // PermissionDialog().showNow(requireFragmentManager(), "PermissionDialog")
+                    /*  val dialog = PermissionDialog()
+                      dialog.show(fragmentManager, "Dialog")*/
+
+                    val snack = Snackbar.make(
+                        clSubItemDetailsDialog,
+                        "For picking image from gallery  allow storage  permission from settings.",
+                        8000
+                    )
+                    snack.setActionTextColor(Color.WHITE)
+                    snack.setAction("Setting") {
+                        // executed when DISMISS is clicked
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        val uri = Uri.fromParts("package", requireActivity().packageName, null)
+                        intent.data = uri
+                        startActivityForResult(intent, 1000)
+                    }
+                    snack.show()
+                }
+
+            }).check()
+    }
+
+    private fun dispatchGalleryPictureIntent(position: Int) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_GALLERY_CAPTURE)
+        positionFor = position
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                REQUEST_GALLERY_CAPTURE -> {
+
+                    if (requestCode == REQUEST_GALLERY_CAPTURE) {
+                        super.onActivityResult(requestCode, resultCode, data)
+                        if (resultCode == Activity.RESULT_OK) {
+                            //data.getParcelableArrayExtra(name);
+                            //If Single image selected then it will fetch from Gallery
+                            if (data!!.data != null) {
+                                val mImageUri: Uri = data.data!!
+                                userImageRealPath =
+                                    NewRealPath.getRealPath(requireContext(), mImageUri).toString()
+                                //    practiceDetailsItemsList[positionFor].attachmentPath = userImageRealPath
+
+                                adapterU.notifyItemChanged(positionFor)
+                                Log.i("mImageUri", "$mImageUri")
+                                //   ivUser.setImageURI(mImageUri)
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
 
     private fun showDialog(
         activity: Activity, position: Int,

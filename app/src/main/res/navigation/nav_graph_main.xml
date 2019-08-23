@@ -4,9 +4,9 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph_main.xml"
             app:startDestination="@id/signInFragment">
 
-    <fragment android:id="@+id/settingFragment" android:name="com.example.practiceHealth.SettingFragment"
+    <fragment android:id="@+id/settingFragment" android:name="com.example.practiceHealth.settingsModule.SettingFragment"
               android:label="fragment_setting" tools:layout="@layout/fragment_setting"/>
-    <fragment android:id="@+id/homeFragment" android:name="com.example.practiceHealth.HomeFragment" android:label="fragment_home"
+    <fragment android:id="@+id/homeFragment" android:name="com.example.practiceHealth.homeModule.HomeFragment" android:label="fragment_home"
               tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_homeFragment_to_settingFragment" app:destination="@id/settingFragment"
                 app:enterAnim="@anim/slide_in_left" app:popEnterAnim="@anim/slide_in_left"
@@ -42,6 +42,6 @@
     <fragment android:id="@+id/stablePracticeFragment"
               android:name="com.example.practiceHealth.homeModule.stablePracticeModule.StablePracticeFragment"
               android:label="fragment_stable_practice" tools:layout="@layout/fragment_stable_practice"/>
-    <fragment android:id="@+id/followUpFragment" android:name="com.example.practiceHealth.FollowUpFragment"
+    <fragment android:id="@+id/followUpFragment" android:name="com.example.practiceHealth.followModule.FollowUpFragment"
               android:label="fragment_follow_up" tools:layout="@layout/fragment_follow_up"/>
 </navigation>

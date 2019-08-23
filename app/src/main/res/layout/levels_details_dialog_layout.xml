@@ -49,20 +49,21 @@
             app:layout_constraintHorizontal_bias="1.0"
             android:layout_marginTop="16dp">
 
-        e
+
+
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etText"
                 android:layout_width="match_parent"
-                android:textSize="@dimen/edit_text_size_16sp"
+                android:layout_height="wrap_content"
 
+                android:fontFamily="@font/source_sans_semi_bold"
+                android:hint="@string/text"
                 android:imeOptions="actionNext"
                 android:inputType="text|textMultiLine"
-                android:singleLine="false"
-                android:fontFamily="@font/source_sans_semi_bold"
-                android:textColor="#8c8888"
                 android:maxLines="10"
-                android:layout_height="wrap_content"
-                android:hint="@string/text"/>
+                android:singleLine="false"
+                android:textColor="#8c8888"
+                android:textSize="@dimen/edit_text_size_16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
