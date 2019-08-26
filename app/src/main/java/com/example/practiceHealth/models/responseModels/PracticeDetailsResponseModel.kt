@@ -13,5 +13,14 @@ data class PracticeDetailsResponseModel(
 	@SerializedName("LevelName")
 	val levelName: String? = null,
 	@SerializedName("StageLevelId")
-	val stageLevelId: Int? = null
+	val stageLevelId: Int? = null,
+
+
+	@SerializedName("path")
+	var path:String?=null,
+	@SerializedName("description")
+	var description:String?=null,
+
+	@SerializedName("list")
+	var list:ArrayList<DescriptionModel>?=null
 )

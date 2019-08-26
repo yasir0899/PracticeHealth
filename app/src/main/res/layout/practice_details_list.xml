@@ -14,7 +14,7 @@
 
     <CheckBox
             android:id="@+id/cb1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
@@ -26,7 +26,7 @@
             android:drawableLeft="@drawable/custom_checkbox"
             android:drawablePadding="10dp"
             android:fontFamily="@font/source_sans_bold"
-            android:text="@string/credentialing"
+
             android:textColor="@color/black"
             android:textSize="@dimen/text_view_size_17sp"
             app:layout_constraintBottom_toTopOf="@+id/rcvPracticeDetailsDescription"
@@ -80,9 +80,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/prac_item_desc_list"
             android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cb1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb1"
+            tools:listitem="@layout/prac_item_desc_list" />
+
+    <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/source_sans_bold"
+            android:text="@string/credentialing"
+            android:textColor="@color/black"
+            android:padding="@dimen/padding_10dp"
+            android:textSize="@dimen/text_view_size_17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cb1"
+            app:layout_constraintEnd_toStartOf="@+id/ivAddNote"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/cb1"
+            app:layout_constraintTop_toTopOf="@+id/cb1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

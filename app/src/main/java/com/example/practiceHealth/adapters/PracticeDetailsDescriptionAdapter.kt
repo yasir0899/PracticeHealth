@@ -1,6 +1,9 @@
 package com.example.practiceHealth.adapters
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,18 +11,18 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 import com.example.practiceHealth.R
-import com.example.practiceHealth.interfaces.RecyclerViewItemPositionViewHolderClickListener
-import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
+import com.example.practiceHealth.interfaces.RecycleViewPracticeDetailsDescriptionCbClickListener
+import com.example.practiceHealth.models.responseModels.DescriptionModel
 import kotlinx.android.synthetic.main.prac_item_desc_list.view.*
 
 
 class PracticeDetailsDescriptionAdapter(
-    private val list: ArrayList<PracticeDetailsResponseModel>,
+    private val list: ArrayList<DescriptionModel>,
     private val context: Context
 ) :
     androidx.recyclerview.widget.RecyclerView.Adapter<PracticeDetailsDescriptionAdapter.ViewHolder>() {
 
-    private var listener: RecyclerViewItemPositionViewHolderClickListener? = null
+    private var listener: RecycleViewPracticeDetailsDescriptionCbClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context).inflate(
@@ -34,11 +37,18 @@ class PracticeDetailsDescriptionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val obj = list[position]
-
+        holder.desc.text = obj.description
+        holder.checkBoxStatus.isChecked = obj.checkBox
         holder.checkBoxStatus.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
 
 
 
+            var descriptionModel = obj
+            descriptionModel.description = obj.description
+            descriptionModel.checkBox = b
+
+
+            listener?.onItemClicked(position, descriptionModel)
         }
     }
 
@@ -51,11 +61,11 @@ class PracticeDetailsDescriptionAdapter(
 
     }
 
-    fun getItem(pos: Int): PracticeDetailsResponseModel {
+    fun getItem(pos: Int): DescriptionModel {
         return list[pos]
     }
 
-    fun setOnAdapterClickListener(listener1: RecyclerViewItemPositionViewHolderClickListener) {
+    fun onAdapterClickListener(listener1: RecycleViewPracticeDetailsDescriptionCbClickListener) {
         this.listener = listener1
     }
 
@@ -72,6 +82,7 @@ class PracticeDetailsDescriptionAdapter(
 
 
     }
+
 
 
 }

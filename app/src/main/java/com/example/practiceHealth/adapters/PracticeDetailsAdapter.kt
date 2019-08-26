@@ -9,10 +9,14 @@ import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.practiceHealth.R
+import com.example.practiceHealth.interfaces.RecycleViewPracticeDetailsDescriptionCbClickListener
 import com.example.practiceHealth.interfaces.RecyclerViewItemPositionViewHolderClickListener
+import com.example.practiceHealth.models.responseModels.DescriptionModel
 import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
 import kotlinx.android.synthetic.main.practice_details_list.view.*
 
@@ -21,8 +25,9 @@ class PracticeDetailsAdapter(
     private val practiceItemsList: ArrayList<PracticeDetailsResponseModel>,
     private val context: Context
 ) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<PracticeDetailsAdapter.ViewHolder>() {
-
+    RecyclerView.Adapter<PracticeDetailsAdapter.ViewHolder>(),
+    RecycleViewPracticeDetailsDescriptionCbClickListener {
+    var clickedPosition: Int = -1
     private var listener: RecyclerViewItemPositionViewHolderClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(
@@ -39,7 +44,11 @@ class PracticeDetailsAdapter(
         holder.clPracticeDetailsList.animation =
             AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val obj = practiceItemsList[position]
-        holder.checkBox.text = obj.levelName
+        holder.checkBoxText.text = obj.levelName
+        var adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context)
+        holder.rcvPracticeDetailsDescription.adapter = adapterU
+        adapterU.onAdapterClickListener(this)
+
         //true
         holder.checkBox.isChecked = obj.iSComplete == 1
         if (obj.notes == null) {
@@ -58,6 +67,22 @@ class PracticeDetailsAdapter(
         /*   if ()
                holder.checkBox.isChecked = true
            else holder.checkBox.isChecked = false*/
+
+        holder.checkBoxText.setOnClickListener {
+            listener?.onAdapterPositionViewHolderListener(
+                position,
+                holder,
+                b = false,
+                fromCheckBox = false,
+                fromCheckBoxText = true,
+                fromAddNote = false,
+                fromAddAttach = false,
+                fromShowAttachment = false
+            )
+
+            clickedPosition = position
+
+        }
         holder.image.setOnClickListener {
 
             if (listener != null) {
@@ -66,7 +91,8 @@ class PracticeDetailsAdapter(
                     holder,
                     b = false,
                     fromCheckBox = false,
-                    fromAddNote=true,
+                    fromCheckBoxText = false,
+                    fromAddNote = true,
                     fromAddAttach = false,
                     fromShowAttachment = false
 
@@ -79,7 +105,8 @@ class PracticeDetailsAdapter(
             if (listener != null) {
                 listener?.onAdapterPositionViewHolderListener(
                     position, holder, b, true,
-                    fromAddNote=false,
+                    fromCheckBoxText = false,
+                    fromAddNote = false,
                     fromAddAttach = false,
                     fromShowAttachment = false
                 )
@@ -93,7 +120,8 @@ class PracticeDetailsAdapter(
                 position, holder,
                 b = false,
                 fromCheckBox = false,
-                fromAddNote=false,
+                fromCheckBoxText = false,
+                fromAddNote = false,
                 fromAddAttach = true,
                 fromShowAttachment = false
             )
@@ -104,7 +132,8 @@ class PracticeDetailsAdapter(
                 position, holder,
                 b = false,
                 fromCheckBox = false,
-                fromAddNote=false,
+                fromCheckBoxText = false,
+                fromAddNote = false,
                 fromAddAttach = false,
                 fromShowAttachment = true
             )
@@ -117,7 +146,8 @@ class PracticeDetailsAdapter(
                 position, holder,
                 b = false,
                 fromCheckBox = false,
-                fromAddNote=false,
+                fromCheckBoxText = false,
+                fromAddNote = false,
                 fromAddAttach = false,
                 fromShowAttachment = false
             )
@@ -125,8 +155,6 @@ class PracticeDetailsAdapter(
         }
 
     }
-
-    var clickedPosition: Int = -1
 
 
     fun deleteItem(pos: Int) {
@@ -149,17 +177,26 @@ class PracticeDetailsAdapter(
     }
 
 
-    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
         var checkBox: CheckBox = view.cb1
+        var checkBoxText: TextView = view.textView4
         var image: ImageView = view.ivAddNote
         var attachment: ImageView = view.ivAddAttachment
         var showAttachment: ImageView = view.ivShowAttachment
         var clPracticeDetailsList: ConstraintLayout = view.clPracticeDetailsList
+        var rcvPracticeDetailsDescription: RecyclerView = view.rcvPracticeDetailsDescription
 
 
     }
 
+    override fun onItemClicked(Position: Int, item: DescriptionModel) {
+        practiceItemsList[clickedPosition].list!![Position].checkBox = item.checkBox
+        practiceItemsList[clickedPosition].list!![Position].description = item.description
 
+        Log.e("practiceItemsList", "$practiceItemsList")
+
+
+    }
 }

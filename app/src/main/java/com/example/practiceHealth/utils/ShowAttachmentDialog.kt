@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.practiceHealth.R
 import com.example.practiceHealth.SubItemDetails
 import com.example.practiceHealth.adapters.SubItemDetailsAdapter
+import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.show_attachment_dialog_layout.view.*
 import java.io.File
@@ -30,11 +31,11 @@ class ShowAttachmentDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.show_attachment_dialog_layout, container, false)
         args = arguments ?: Bundle()
-        var subLevelsDetails = Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), SubItemDetails::class.java)
+        var subLevelsDetails = Gson().fromJson(args!!.getString(SUB_LEVEL_DATA), PracticeDetailsResponseModel::class.java)
         if (subLevelsDetails != null) {
 
-            val file = File(subLevelsDetails.attachmentPath)
-            if (subLevelsDetails.attachmentPath == "" || !file.exists()) {
+            val file = File(subLevelsDetails.path)
+            if (subLevelsDetails.path == "" || !file.exists()) {
                 view.tvNoAttachment.visibility = View.VISIBLE
                 view.ivShowAttachmentDialog.visibility = View.INVISIBLE
             } else {
@@ -42,7 +43,7 @@ class ShowAttachmentDialog : DialogFragment() {
                 view.tvNoAttachment.visibility = View.INVISIBLE
                 view.ivShowAttachmentDialog.visibility = View.VISIBLE
                 Glide.with(requireContext())
-                    .load(subLevelsDetails.attachmentPath)
+                    .load(subLevelsDetails.path)
                     .into(view.ivShowAttachmentDialog)
 
             }

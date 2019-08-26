@@ -21,15 +21,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.adapters.PracticeDetailsAdapter
 import com.example.practiceHealth.interfaces.RecyclerViewItemPositionViewHolderClickListener
 import com.example.practiceHealth.models.requestModels.PracticeStageLevelRequestModel
+import com.example.practiceHealth.models.responseModels.DescriptionModel
 import com.example.practiceHealth.models.responseModels.NewPracticesResponseModel
 import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
 import com.example.practiceHealth.utils.NewRealPath
 import com.example.practiceHealth.utils.ShowAttachmentDialog
+import com.example.practiceHealth.utils.ToastUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
@@ -43,6 +45,7 @@ import kotlinx.android.synthetic.main.sub_level_item_details_dialog_layout.*
 
 
 class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderClickListener {
+    var isVisibility: Boolean = false
     private var userImageRealPath: String = ""
     private var positionFor: Int = 0
     private var practiceStageId: String? = ""
@@ -88,18 +91,90 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
 
     private fun initPracticeDetailsItems(practiceId: String?) {
         pbPracticeDetails.visibility = View.VISIBLE
-        practiceDetailsVM.getPracticesDetails(practiceId!!)
-            ?.observe(this, Observer<ArrayList<PracticeDetailsResponseModel>> {
-                pbPracticeDetails.visibility = View.INVISIBLE
+        var list= ArrayList<DescriptionModel>()
+        list.add(DescriptionModel(false,"test"))
+        list.add(DescriptionModel(true,"test"))
+        list.add(DescriptionModel(false,"test"))
+        list.add(DescriptionModel(true,"test"))
+        list.add(DescriptionModel(false,"test"))
 
-                if (it != null && it.size !== 0) {
-                    practiceDetailsItemsList = it
-                    adapterU = PracticeDetailsAdapter(practiceDetailsItemsList, requireContext())
-                    rcvPracticeDetails.adapter = adapterU
-                    adapterU.setOnAdapterClickListener(this)
-                }
 
-            })
+        practiceDetailsItemsList.add(
+            PracticeDetailsResponseModel(
+                1,
+                "",
+                0,
+                "test1",
+                1,
+                "",
+                "hello",list
+            )
+        )
+        practiceDetailsItemsList.add(
+            PracticeDetailsResponseModel(
+                1,
+                "",
+                0,
+                "test2",
+                1,
+                "",
+                "hello1",list
+            )
+        )
+        practiceDetailsItemsList.add(
+            PracticeDetailsResponseModel(
+                1,
+                "",
+                0,
+                "test3",
+                1,
+                "",
+                "hello2",list
+            )
+        )
+        practiceDetailsItemsList.add(
+            PracticeDetailsResponseModel(
+                1,
+                "",
+                0,
+                "test4",
+                1,
+                "",
+                "hello3",list
+            )
+        )
+        practiceDetailsItemsList.add(
+            PracticeDetailsResponseModel(
+                1,
+                "",
+                0,
+                "test5",
+                1,
+                "",
+                "hello4",list
+            )
+        )
+        adapterU = PracticeDetailsAdapter(practiceDetailsItemsList, requireContext())
+        rcvPracticeDetails.adapter = adapterU
+        adapterU.setOnAdapterClickListener(this)
+        /*  practiceDetailsVM.getPracticesDetails(practiceId!!)
+
+              ?.observe(this, Observer<ArrayList<PracticeDetailsResponseModel>> {
+                  pbPracticeDetails.visibility = View.INVISIBLE
+
+                  if (it != null && it.size !== 0) {
+                      practiceDetailsItemsList = it
+                      practiceDetailsItemsList.add(PracticeDetailsResponseModel(1,"",0,"test1",1))
+                      practiceDetailsItemsList.add(PracticeDetailsResponseModel(1,"",0,"test2",1))
+                      practiceDetailsItemsList.add(PracticeDetailsResponseModel(1,"",0,"test3",1))
+                      practiceDetailsItemsList.add(PracticeDetailsResponseModel(1,"",0,"test4",1))
+                      practiceDetailsItemsList.add(PracticeDetailsResponseModel(1,"",0,"test5",1))
+                      adapterU = PracticeDetailsAdapter(practiceDetailsItemsList, requireContext())
+                      rcvPracticeDetails.adapter = adapterU
+                      adapterU.setOnAdapterClickListener(this)
+                  }
+
+              })*/
 
     }
 
@@ -114,6 +189,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         holder: PracticeDetailsAdapter.ViewHolder,
         b: Boolean,
         fromCheckBox: Boolean,
+        fromCheckBoxText: Boolean,
         fromAddNote: Boolean,
         fromAddAttach: Boolean,
         fromShowAttachment: Boolean
@@ -153,6 +229,22 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                     // initPracticeDetailsItems(practiceStageId)
 
                 })
+
+
+            }
+
+            fromCheckBoxText -> {
+                if (!isVisibility){
+                    isVisibility=true
+                val vh = rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
+                vh.rcvPracticeDetailsDescription.visibility = View.VISIBLE
+                }
+                else{
+                    isVisibility=false
+                    val vh = rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
+                    vh.rcvPracticeDetailsDescription.visibility = View.GONE}
+
+
 
 
             }
@@ -251,7 +343,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                                 val mImageUri: Uri = data.data!!
                                 userImageRealPath =
                                     NewRealPath.getRealPath(requireContext(), mImageUri).toString()
-                                //    practiceDetailsItemsList[positionFor].attachmentPath = userImageRealPath
+                                practiceDetailsItemsList[positionFor].path = userImageRealPath
 
                                 adapterU.notifyItemChanged(positionFor)
                                 Log.i("mImageUri", "$mImageUri")
