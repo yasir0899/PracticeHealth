@@ -90,7 +90,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
     }
 
     private fun initPracticeDetailsItems(practiceId: String?) {
-        pbPracticeDetails.visibility = View.VISIBLE
+       // pbPracticeDetails.visibility = View.VISIBLE
         var list= ArrayList<DescriptionModel>()
         list.add(DescriptionModel(false,"test"))
         list.add(DescriptionModel(true,"test"))
@@ -208,8 +208,13 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                         adapterU.getItem(position).notes,
                         isCheck,
                         adapterU.getItem(position).levelName,
-                        adapterU.getItem(position).stageLevelId
+                        adapterU.getItem(position).stageLevelId,
+                        adapterU.getItem(position).path,
+                        adapterU.getItem(position).description,
+                        adapterU.getItem(position).list
+
                     )
+
                 //ToastUtil.showShortToast(requireContext(), "$item")
                 var obj = PracticeStageLevelRequestModel(
                     0,

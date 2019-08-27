@@ -2,6 +2,6 @@ package com.example.practiceHealth.models.responseModels
 
 data class DescriptionModel(
 
-    var checkBox: Boolean,
+    var isCheck: Boolean,
     var description: String
 )

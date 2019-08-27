@@ -41,11 +41,12 @@ class PracticeDetailsAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clPracticeDetailsList.animation =
+      //
+        //  holder.clPracticeDetailsList.animation =
             AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val obj = practiceItemsList[position]
         holder.checkBoxText.text = obj.levelName
-        var adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context)
+        var adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context, this)
         holder.rcvPracticeDetailsDescription.adapter = adapterU
         adapterU.onAdapterClickListener(this)
 
@@ -65,8 +66,8 @@ class PracticeDetailsAdapter(
 
         }
         /*   if ()
-               holder.checkBox.isChecked = true
-           else holder.checkBox.isChecked = false*/
+               holder.isCheck.isChecked = true
+           else holder.isCheck.isChecked = false*/
 
         holder.checkBoxText.setOnClickListener {
             listener?.onAdapterPositionViewHolderListener(
@@ -192,11 +193,37 @@ class PracticeDetailsAdapter(
     }
 
     override fun onItemClicked(Position: Int, item: DescriptionModel) {
-        practiceItemsList[clickedPosition].list!![Position].checkBox = item.checkBox
-        practiceItemsList[clickedPosition].list!![Position].description = item.description
+         practiceItemsList[clickedPosition].list!![Position].isCheck = item.isCheck
+         practiceItemsList[clickedPosition].list!![Position].description = item.description
 
         Log.e("practiceItemsList", "$practiceItemsList")
+        Log.e("updatedItem", "${practiceItemsList[clickedPosition]}")
 
+        var ischecked= practiceItemsList[clickedPosition].list!!.filter { it.isCheck }
+        Log.e("ischecked", "$ischecked")
 
+        if (ischecked.size== practiceItemsList[clickedPosition].list!!.size){
+
+            practiceItemsList[clickedPosition].iSComplete = 1
+            notifyItemChanged(clickedPosition)
+        }
+        else {
+            practiceItemsList[clickedPosition].iSComplete = 0
+            notifyItemChanged(clickedPosition)
+        }
     }
-}
+
+    fun onParentSelected(allChildCheck: Boolean) {
+
+
+      /*  if (allChildCheck) {
+            practiceItemsList[clickedPosition].iSComplete = 1
+            notifyItemChanged(clickedPosition)
+        }
+
+        else {
+            practiceItemsList[clickedPosition].iSComplete = 0
+            notifyItemChanged(clickedPosition)
+        }*/
+
+    }}
