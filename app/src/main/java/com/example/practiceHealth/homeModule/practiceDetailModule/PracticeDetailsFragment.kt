@@ -203,15 +203,12 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         when {
             fromCheckBox -> {
 
+                val list = practiceDetailsItemsList[position].list
                 if (b) {
-
-
-                    practiceDetailsItemsList[position].list!![0].isCheck = b
+                    list?.forEach { it.isCheck = true }
                     adapterU.notifyItemChanged(position)
-
-
                 } else {
-                    practiceDetailsItemsList[position].list!![0].isCheck = false
+                    list?.forEach { it.isCheck = false }
                     adapterU.notifyItemChanged(position)
                 }
                 val item =
