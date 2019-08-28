@@ -9,7 +9,7 @@ data class PracticeDetailsResponseModel(
 	@SerializedName("notes")
 	val notes: Any? = null,
 	@SerializedName("ISComplete")
-	val iSComplete: Int? = null,
+    var iSComplete: Int? = null,
 	@SerializedName("LevelName")
 	val levelName: String? = null,
 	@SerializedName("StageLevelId")

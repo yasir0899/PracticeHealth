@@ -31,7 +31,6 @@ import com.example.practiceHealth.models.responseModels.NewPracticesResponseMode
 import com.example.practiceHealth.models.responseModels.PracticeDetailsResponseModel
 import com.example.practiceHealth.utils.NewRealPath
 import com.example.practiceHealth.utils.ShowAttachmentDialog
-import com.example.practiceHealth.utils.ToastUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
@@ -90,13 +89,13 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
     }
 
     private fun initPracticeDetailsItems(practiceId: String?) {
-        pbPracticeDetails.visibility = View.VISIBLE
-        var list= ArrayList<DescriptionModel>()
-        list.add(DescriptionModel(false,"test"))
-        list.add(DescriptionModel(true,"test"))
-        list.add(DescriptionModel(false,"test"))
-        list.add(DescriptionModel(true,"test"))
-        list.add(DescriptionModel(false,"test"))
+        // pbPracticeDetails.visibility = View.VISIBLE
+        var list = ArrayList<DescriptionModel>()
+        list.add(DescriptionModel(false, "test"))
+        list.add(DescriptionModel(true, "test"))
+        list.add(DescriptionModel(false, "test"))
+        list.add(DescriptionModel(true, "test"))
+        list.add(DescriptionModel(false, "test"))
 
 
         practiceDetailsItemsList.add(
@@ -107,7 +106,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                 "test1",
                 1,
                 "",
-                "hello",list
+                "hello", list
             )
         )
         practiceDetailsItemsList.add(
@@ -118,7 +117,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                 "test2",
                 1,
                 "",
-                "hello1",list
+                "hello1", list
             )
         )
         practiceDetailsItemsList.add(
@@ -129,7 +128,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                 "test3",
                 1,
                 "",
-                "hello2",list
+                "hello2", list
             )
         )
         practiceDetailsItemsList.add(
@@ -140,7 +139,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                 "test4",
                 1,
                 "",
-                "hello3",list
+                "hello3", list
             )
         )
         practiceDetailsItemsList.add(
@@ -151,7 +150,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                 "test5",
                 1,
                 "",
-                "hello4",list
+                "hello4", list
             )
         )
         adapterU = PracticeDetailsAdapter(practiceDetailsItemsList, requireContext())
@@ -196,20 +195,38 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
     ) {
         var isCheck = if (b) {
             1
+
+
         } else {
             0
         }
         when {
             fromCheckBox -> {
 
+                if (b) {
+
+
+                    practiceDetailsItemsList[position].list!![0].isCheck = b
+                    adapterU.notifyItemChanged(position)
+
+
+                } else {
+                    practiceDetailsItemsList[position].list!![0].isCheck = false
+                    adapterU.notifyItemChanged(position)
+                }
                 val item =
                     PracticeDetailsResponseModel(
                         adapterU.getItem(position).practiceStageLevelId,
                         adapterU.getItem(position).notes,
                         isCheck,
                         adapterU.getItem(position).levelName,
-                        adapterU.getItem(position).stageLevelId
+                        adapterU.getItem(position).stageLevelId,
+                        adapterU.getItem(position).path,
+                        adapterU.getItem(position).description,
+                        adapterU.getItem(position).list
+
                     )
+
                 //ToastUtil.showShortToast(requireContext(), "$item")
                 var obj = PracticeStageLevelRequestModel(
                     0,
@@ -234,17 +251,17 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
             }
 
             fromCheckBoxText -> {
-                if (!isVisibility){
-                    isVisibility=true
-                val vh = rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
-                vh.rcvPracticeDetailsDescription.visibility = View.VISIBLE
+                if (!isVisibility) {
+                    isVisibility = true
+                    val vh =
+                        rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
+                    vh.rcvPracticeDetailsDescription.visibility = View.VISIBLE
+                } else {
+                    isVisibility = false
+                    val vh =
+                        rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
+                    vh.rcvPracticeDetailsDescription.visibility = View.GONE
                 }
-                else{
-                    isVisibility=false
-                    val vh = rcvPracticeDetails.findViewHolderForAdapterPosition(position) as PracticeDetailsAdapter.ViewHolder
-                    vh.rcvPracticeDetailsDescription.visibility = View.GONE}
-
-
 
 
             }
@@ -342,7 +359,8 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                             if (data!!.data != null) {
                                 val mImageUri: Uri = data.data!!
                                 userImageRealPath =
-                                    NewRealPath.getRealPath(requireContext(), mImageUri).toString()
+                                    NewRealPath.getRealPath(requireContext(), mImageUri)
+                                        .toString()
                                 practiceDetailsItemsList[positionFor].path = userImageRealPath
 
                                 adapterU.notifyItemChanged(positionFor)

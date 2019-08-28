@@ -52,6 +52,7 @@
             app:loader_showRunningShadow="false"
             app:loader_circleRadius="@dimen/dot_radius_selected_unselected"
             app:loader_dotsDist="8dp"
+            android:visibility="gone"
             app:loader_expandOnSelect="true"
             app:loader_isSingleDir="true"
             app:loader_noOfDots="5"

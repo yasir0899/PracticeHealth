@@ -1,9 +1,6 @@
 package com.example.practiceHealth.adapters
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +15,8 @@ import kotlinx.android.synthetic.main.prac_item_desc_list.view.*
 
 class PracticeDetailsDescriptionAdapter(
     private val list: ArrayList<DescriptionModel>,
-    private val context: Context
+    private val context: Context,
+    private var parentPosition: Int
 ) :
     androidx.recyclerview.widget.RecyclerView.Adapter<PracticeDetailsDescriptionAdapter.ViewHolder>() {
 
@@ -38,19 +36,20 @@ class PracticeDetailsDescriptionAdapter(
 
         val obj = list[position]
         holder.desc.text = obj.description
-        holder.checkBoxStatus.isChecked = obj.checkBox
+        holder.checkBoxStatus.isChecked = obj.isCheck
         holder.checkBoxStatus.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-
 
 
             var descriptionModel = obj
             descriptionModel.description = obj.description
-            descriptionModel.checkBox = b
-
-
-            listener?.onItemClicked(position, descriptionModel)
+            descriptionModel.isCheck = b
+            listener?.onItemClicked(position, descriptionModel,parentPosition)
         }
     }
+
+
+
+
 
     var clickedPosition: Int = -1
 
@@ -82,7 +81,6 @@ class PracticeDetailsDescriptionAdapter(
 
 
     }
-
 
 
 }

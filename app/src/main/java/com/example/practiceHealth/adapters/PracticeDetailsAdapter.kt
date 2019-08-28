@@ -27,6 +27,7 @@ class PracticeDetailsAdapter(
 ) :
     RecyclerView.Adapter<PracticeDetailsAdapter.ViewHolder>(),
     RecycleViewPracticeDetailsDescriptionCbClickListener {
+    private lateinit var   adapterU: PracticeDetailsDescriptionAdapter
     var clickedPosition: Int = -1
     private var listener: RecyclerViewItemPositionViewHolderClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -41,11 +42,12 @@ class PracticeDetailsAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.clPracticeDetailsList.animation =
-            AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
+        //
+        //  holder.clPracticeDetailsList.animation =
+        AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val obj = practiceItemsList[position]
         holder.checkBoxText.text = obj.levelName
-        var adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context)
+      adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context,position)
         holder.rcvPracticeDetailsDescription.adapter = adapterU
         adapterU.onAdapterClickListener(this)
 
@@ -65,8 +67,8 @@ class PracticeDetailsAdapter(
 
         }
         /*   if ()
-               holder.checkBox.isChecked = true
-           else holder.checkBox.isChecked = false*/
+               holder.isCheck.isChecked = true
+           else holder.isCheck.isChecked = false*/
 
         holder.checkBoxText.setOnClickListener {
             listener?.onAdapterPositionViewHolderListener(
@@ -81,6 +83,8 @@ class PracticeDetailsAdapter(
             )
 
             clickedPosition = position
+
+
 
         }
         holder.image.setOnClickListener {
@@ -110,7 +114,20 @@ class PracticeDetailsAdapter(
                     fromAddAttach = false,
                     fromShowAttachment = false
                 )
+                clickedPosition = position
+               /* if(b)
+                {practiceItemsList[position].list!![position].isCheck=b
+             //   adapterU.notifyDataSetChanged()
+                    }
+                else{
+
+                    practiceItemsList[position].list!![position].isCheck=true
+                  //  adapterU.notifyDataSetChanged()
+                }*/
             }
+
+
+
             Log.i("is Checked :", "$b")
 
         }
@@ -191,12 +208,28 @@ class PracticeDetailsAdapter(
 
     }
 
-    override fun onItemClicked(Position: Int, item: DescriptionModel) {
-        practiceItemsList[clickedPosition].list!![Position].checkBox = item.checkBox
-        practiceItemsList[clickedPosition].list!![Position].description = item.description
+    override fun onItemClicked(
+        Position: Int,
+        item: DescriptionModel,
+        parentPosition: Int
+    ) {
+        practiceItemsList[parentPosition].list!![Position].isCheck = item.isCheck
+        practiceItemsList[parentPosition].list!![Position].description = item.description
 
         Log.e("practiceItemsList", "$practiceItemsList")
+        Log.e("updatedItem", "${practiceItemsList[parentPosition]}")
 
+        var ischecked = practiceItemsList[parentPosition].list!!.filter { it.isCheck }
+        Log.e("ischecked", "$ischecked")
 
+        if (ischecked.size == practiceItemsList[parentPosition].list!!.size) {
+
+            practiceItemsList[parentPosition].iSComplete = 1
+            notifyItemChanged(parentPosition)
+        } else {
+            practiceItemsList[parentPosition].iSComplete = 0
+            notifyItemChanged(parentPosition)
+        }
     }
+
 }
