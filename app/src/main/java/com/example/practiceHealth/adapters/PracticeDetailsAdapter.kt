@@ -27,6 +27,7 @@ class PracticeDetailsAdapter(
 ) :
     RecyclerView.Adapter<PracticeDetailsAdapter.ViewHolder>(),
     RecycleViewPracticeDetailsDescriptionCbClickListener {
+    private lateinit var   adapterU: PracticeDetailsDescriptionAdapter
     var clickedPosition: Int = -1
     private var listener: RecyclerViewItemPositionViewHolderClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -46,7 +47,7 @@ class PracticeDetailsAdapter(
         AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation)
         val obj = practiceItemsList[position]
         holder.checkBoxText.text = obj.levelName
-        val adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context, this)
+      adapterU = PracticeDetailsDescriptionAdapter(obj.list!!, context,position)
         holder.rcvPracticeDetailsDescription.adapter = adapterU
         adapterU.onAdapterClickListener(this)
 
@@ -83,6 +84,8 @@ class PracticeDetailsAdapter(
 
             clickedPosition = position
 
+
+
         }
         holder.image.setOnClickListener {
 
@@ -111,7 +114,20 @@ class PracticeDetailsAdapter(
                     fromAddAttach = false,
                     fromShowAttachment = false
                 )
+                clickedPosition = position
+               /* if(b)
+                {practiceItemsList[position].list!![position].isCheck=b
+             //   adapterU.notifyDataSetChanged()
+                    }
+                else{
+
+                    practiceItemsList[position].list!![position].isCheck=true
+                  //  adapterU.notifyDataSetChanged()
+                }*/
             }
+
+
+
             Log.i("is Checked :", "$b")
 
         }
@@ -192,23 +208,27 @@ class PracticeDetailsAdapter(
 
     }
 
-    override fun onItemClicked(Position: Int, item: DescriptionModel) {
-        practiceItemsList[clickedPosition].list!![Position].isCheck = item.isCheck
-        practiceItemsList[clickedPosition].list!![Position].description = item.description
+    override fun onItemClicked(
+        Position: Int,
+        item: DescriptionModel,
+        parentPosition: Int
+    ) {
+        practiceItemsList[parentPosition].list!![Position].isCheck = item.isCheck
+        practiceItemsList[parentPosition].list!![Position].description = item.description
 
         Log.e("practiceItemsList", "$practiceItemsList")
-        Log.e("updatedItem", "${practiceItemsList[clickedPosition]}")
+        Log.e("updatedItem", "${practiceItemsList[parentPosition]}")
 
-        var ischecked = practiceItemsList[clickedPosition].list!!.filter { it.isCheck }
+        var ischecked = practiceItemsList[parentPosition].list!!.filter { it.isCheck }
         Log.e("ischecked", "$ischecked")
 
-        if (ischecked.size == practiceItemsList[clickedPosition].list!!.size) {
+        if (ischecked.size == practiceItemsList[parentPosition].list!!.size) {
 
-            practiceItemsList[clickedPosition].iSComplete = 1
-            notifyItemChanged(clickedPosition)
+            practiceItemsList[parentPosition].iSComplete = 1
+            notifyItemChanged(parentPosition)
         } else {
-            practiceItemsList[clickedPosition].iSComplete = 0
-            notifyItemChanged(clickedPosition)
+            practiceItemsList[parentPosition].iSComplete = 0
+            notifyItemChanged(parentPosition)
         }
     }
 

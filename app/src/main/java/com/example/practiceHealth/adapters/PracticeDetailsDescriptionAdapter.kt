@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.prac_item_desc_list.view.*
 class PracticeDetailsDescriptionAdapter(
     private val list: ArrayList<DescriptionModel>,
     private val context: Context,
-    private val practiceDetailsAdapter: PracticeDetailsAdapter
+    private var parentPosition: Int
 ) :
     androidx.recyclerview.widget.RecyclerView.Adapter<PracticeDetailsDescriptionAdapter.ViewHolder>() {
 
@@ -43,7 +43,7 @@ class PracticeDetailsDescriptionAdapter(
             var descriptionModel = obj
             descriptionModel.description = obj.description
             descriptionModel.isCheck = b
-            listener?.onItemClicked(position, descriptionModel)
+            listener?.onItemClicked(position, descriptionModel,parentPosition)
         }
     }
 

@@ -55,7 +55,7 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
 
 
             pbNewPractices.visibility=View.INVISIBLE
-            if (it != null) {
+            if (it != null && it.isNotEmpty()) {
                 adapterU = NewPracticesAdapter(it, requireContext())
                 /*val resId = R.anim.layout_animation_fall_down
                 val animation = loadLayoutAnimation(requireContext(), resId)
