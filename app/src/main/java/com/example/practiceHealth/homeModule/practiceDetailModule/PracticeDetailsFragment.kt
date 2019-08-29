@@ -203,13 +203,29 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         when {
             fromCheckBox -> {
 
+                practiceDetailsItemsList[position].iSComplete=1
                 val list = practiceDetailsItemsList[position].list
                 if (b) {
                     list?.forEach { it.isCheck = true }
-                    adapterU.notifyItemChanged(position)
+
+                    rcvPracticeDetails.post {
+
+                        run {
+                            adapterU.notifyItemChanged(position)
+                        }
+                    }
+
+
                 } else {
+                    practiceDetailsItemsList[position].iSComplete=0
                     list?.forEach { it.isCheck = false }
-                    adapterU.notifyItemChanged(position)
+                    rcvPracticeDetails.post {
+
+                        run {
+                            adapterU.notifyItemChanged(position)
+                        }
+                    }
+
                 }
                 val item =
                     PracticeDetailsResponseModel(
@@ -401,7 +417,10 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
                     note,
                     adapterU.getItem(position).iSComplete,
                     adapterU.getItem(position).levelName,
-                    adapterU.getItem(position).stageLevelId
+                    adapterU.getItem(position).stageLevelId,
+                    adapterU.getItem(position).path,
+                    adapterU.getItem(position).description,
+                    adapterU.getItem(position).list
                 )
             if (note.isEmpty()) {
 

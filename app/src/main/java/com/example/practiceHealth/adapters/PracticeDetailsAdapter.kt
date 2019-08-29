@@ -53,6 +53,7 @@ class PracticeDetailsAdapter(
 
         //true
         holder.checkBox.isChecked = obj.iSComplete == 1
+
         if (obj.notes == null) {
 
             Glide.with(context)
@@ -215,6 +216,7 @@ class PracticeDetailsAdapter(
     ) {
         practiceItemsList[parentPosition].list!![Position].isCheck = item.isCheck
         practiceItemsList[parentPosition].list!![Position].description = item.description
+        notifyItemChanged(parentPosition)
 
         Log.e("practiceItemsList", "$practiceItemsList")
         Log.e("updatedItem", "${practiceItemsList[parentPosition]}")
