@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.R
+import com.example.practiceHealth.activities.MainActivity
 import com.example.practiceHealth.adapters.NewPracticesAdapter
 import com.example.practiceHealth.homeModule.practiceDetailModule.PracticeDetailsFragment
 import com.example.practiceHealth.interfaces.RecyclerViewItemClickListener
@@ -50,22 +50,23 @@ class NewPracticesFragment : Fragment(), RecyclerViewItemClickListener {
 
 
     private fun initNewPracticeItems() {
-        pbNewPractices.visibility=View.VISIBLE
-        newPracticesVM.getNewPractices("1")?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
+        pbNewPractices.visibility = View.VISIBLE
+        newPracticesVM.getNewPractices("1")
+            ?.observe(this, Observer<ArrayList<NewPracticesResponseModel>> {
 
 
-            pbNewPractices.visibility=View.INVISIBLE
-            if (it != null && it.isNotEmpty()) {
-                adapterU = NewPracticesAdapter(it, requireContext())
-                /*val resId = R.anim.layout_animation_fall_down
-                val animation = loadLayoutAnimation(requireContext(), resId)
-                rcvNewPractice.layoutAnimation = animation*/
-                rcvNewPractice.adapter = adapterU
-                adapterU.setOnAdapterClickListener(this)
-            }
+                pbNewPractices.visibility = View.INVISIBLE
+                if (it != null && !it.isNullOrEmpty()) {
+                    adapterU = NewPracticesAdapter(it, requireContext())
+                    /*val resId = R.anim.layout_animation_fall_down
+                    val animation = loadLayoutAnimation(requireContext(), resId)
+                    rcvNewPractice.layoutAnimation = animation*/
+                    rcvNewPractice.adapter = adapterU
+                    adapterU.setOnAdapterClickListener(this)
+                }
 
 
-        })
+            })
 
     }
 

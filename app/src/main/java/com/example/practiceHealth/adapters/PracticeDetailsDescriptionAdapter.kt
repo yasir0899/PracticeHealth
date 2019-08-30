@@ -37,18 +37,16 @@ class PracticeDetailsDescriptionAdapter(
         val obj = list[position]
         holder.desc.text = obj.description
         holder.checkBoxStatus.isChecked = obj.isCheck
-        holder.checkBoxStatus.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+        holder.checkBoxStatus.setOnCheckedChangeListener { button: CompoundButton, b: Boolean ->
 
-
-            var descriptionModel = obj
-            descriptionModel.description = obj.description
-            descriptionModel.isCheck = b
-            listener?.onItemClicked(position, descriptionModel,parentPosition)
+            if (button.isPressed) {
+                var descriptionModel = obj
+                descriptionModel.description = obj.description
+                descriptionModel.isCheck = b
+                listener?.onItemClicked(position, descriptionModel, parentPosition)
+            }
         }
     }
-
-
-
 
 
     var clickedPosition: Int = -1

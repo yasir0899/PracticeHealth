@@ -203,9 +203,10 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
         when {
             fromCheckBox -> {
 
-                practiceDetailsItemsList[position].iSComplete=1
+
                 val list = practiceDetailsItemsList[position].list
                 if (b) {
+                    practiceDetailsItemsList[position].iSComplete = 1
                     list?.forEach { it.isCheck = true }
 
                     rcvPracticeDetails.post {
@@ -217,7 +218,7 @@ class PracticeDetailsFragment : Fragment(), RecyclerViewItemPositionViewHolderCl
 
 
                 } else {
-                    practiceDetailsItemsList[position].iSComplete=0
+                    practiceDetailsItemsList[position].iSComplete = 0
                     list?.forEach { it.isCheck = false }
                     rcvPracticeDetails.post {
 
